@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
-import logo from "../../../assets/main_logo.png";
+import logo from "../../../assets/eduFusionLogo.png";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 
@@ -91,7 +91,7 @@ const Navbar = () => {
                             <li className="justify-between">
                                 <span>{user.displayName || 'Username'}</span>
                             </li>
-                            <li><Link to="/dashboard">Dashboard</Link></li>
+                            <li><Link to="/dashboard">Teacher Dashboard</Link></li>
                             <li><button onClick={handleLogout}>Logout</button></li>
                         </ul>
                     </div>

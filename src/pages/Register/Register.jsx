@@ -7,7 +7,10 @@ import useAuth from "../../hooks/useAuth";
 import { useState } from "react"; // Corrected import
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { updateProfile } from "firebase/auth";
+import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 const Register = () => {
+    const axiosPublic = useAxiosPublic();
     const { createUser } = useAuth();
     const [registerError, setRegisterError] = useState('');
     const [success, setSuccess] = useState('');
@@ -19,7 +22,7 @@ const Register = () => {
         formState: { errors }
     } = useForm();
     const onSubmit = (data) => {
-        const { fullName,image,email, password } = data;
+        const { fullName, image, email, password } = data;
         console.log(password);
         // password validation start 
         if (password.length < 6) {
@@ -37,7 +40,7 @@ const Register = () => {
         // reset error 
         setRegisterError('');
         setSuccess('');
-      
+
         // create user 
         createUser(email, password)
             .then(result => {
@@ -45,15 +48,34 @@ const Register = () => {
                 setSuccess('User Created Successfully');
                 toast.success('User Created Successfully');
                 // update profile
-                updateProfile(result.user,{
+                updateProfile(result.user, {
                     displayName: fullName,
-                    photoURL:image
+                    photoURL: image
                 })
-                .then(()=>{
-                    navigate("/");
-                    
-                })
-                .catch()
+                    .then(() => {
+                        const userInfo = {
+                            name: fullName,
+                            email: email
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    console.log('user added to the database');
+                                    // reset()
+                                    Swal.fire({
+                                        position: "top-end",
+                                        icon: "success",
+                                        title: "User Created Successfully",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    navigate("/");
+                                }
+                            })
+
+
+                    })
+                    .catch()
             })
             .catch(error => {
                 console.error(error);
@@ -63,7 +85,7 @@ const Register = () => {
 
     return (
         <div>
-           
+
 
             <div>
                 <ToastContainer />

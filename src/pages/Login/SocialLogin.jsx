@@ -1,9 +1,11 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
+import useAxiosPublic from './../../hooks/useAxiosPublic';
 
 const SocialLogin = () => {
     const { googleLogin} = useAuth();
+    const axiosPublic = useAxiosPublic();
 
     // navigation systems
     const navigate = useNavigate();
@@ -13,9 +15,19 @@ const SocialLogin = () => {
 
     const handleSocialLogin = socialProvider => {
         socialProvider().then((result) => {
-            if (result.user) {
-                navigate(from);
+            const userInfo ={
+                email : result.user?.email,
+                name : result.user?.displayName
             }
+            axiosPublic.post('/users',userInfo)
+            .then( res => {
+                console.log(res.data);
+                navigate(from);
+
+
+            })
+            // if (result.user) {
+            // }
         });
     }
 
