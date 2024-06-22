@@ -1,6 +1,6 @@
-import React from 'react';
-import teacherImage from '../../assets/boy2 (2).jpg';
-import { useNavigate } from 'react-router-dom';
+
+import teacherImage from '../../assets/teacher.jpg';
+import {  useNavigate } from 'react-router-dom';
 
 const TeacherJoinSection = () => {
     const navigate = useNavigate();
@@ -10,30 +10,33 @@ const TeacherJoinSection = () => {
     };
 
     return (
-        <div className="card card-side bg-base-100 shadow-xl flex justify-center items-center py-12">
-            <figure className="w-1/2 p-4">
-                <img
-                    src={teacherImage}
-                    alt="Join as a Teacher"
-                    className="rounded-lg shadow-lg w-full h-auto object-cover"
-                />
-            </figure>
-            <div className="card-body w-1/2 p-4">
-                <h2 className="card-title text-3xl font-bold mb-4">Become an Instructor</h2>
-                <p className="mb-6">
-                    Instructors from around the world teach millions of learners on [Your Website Name].
-                    We provide the tools and skills to teach what you love.
-                </p>
-                <div className="card-actions justify-start">
-                    <button onClick={handleStartTeachingClick} className="btn btn-accent">
-                        Start teaching today
-                    </button>
-                </div>
-            </div>
-        </div>
+        <div className='flex flex-col md:flex-row gap-20 items-center max-w-5xl mx-auto mt-10'>
+<div className='bg-orange-700 bg-opacity-50 w-96'>
+    <img src={teacherImage} alt="" />
+</div>
+<div className='text-center'>
+    <h2 className='text-3xl font-semibold'>Become an Instructor</h2>
+    <p className='mt-3 md:mt-5 text-xl'> Instructors from around the world teach millions of learners on EduFusion.
+                    We provide the tools and skills to teach what you love.</p>
+    <button 
+    onClick={handleStartTeachingClick}
+    className='btn bg-[#225ae6] text-white text-lg mt-3 md:mt-5'>Start teaching today</button>
+</div>
+</div>
 
 
     );
 };
 
 export default TeacherJoinSection;
+{/* <div className='flex flex-col md:flex-row gap-20 items-center max-w-5xl mx-auto mt-10'>
+<div className='bg-orange-700 bg-opacity-50 w-96'>
+    <img src={teacher} alt="" />
+</div>
+<div className='text-center'>
+    <h2 className='text-5xl font-semibold'>Become a Teacher</h2>
+    <p className='mt-3 md:mt-5 text-xl'> Instructors from around the world teach millions of learners on EduFusion.
+                    We provide the tools and skills to teach what you love.</p>
+    <Link to='/teach-on-lear-ease'><button className='btn bg-[#e67e22] text-white text-lg mt-3 md:mt-5'>Start teaching today</button></Link>
+</div>
+</div> */}

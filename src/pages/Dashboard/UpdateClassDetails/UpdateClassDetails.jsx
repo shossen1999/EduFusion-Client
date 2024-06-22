@@ -14,7 +14,7 @@ const UpdateClassDetails = () => {
     const [classDetails, setClassDetails] = useState({});
 
     useEffect(() => {
-        fetch(`http://localhost:5000/singleClass/${id}`)
+        fetch(`https://edu-fusion-server.vercel.app/singleClass/${id}`)
             .then(res => res.json())
             .then(data => {
                 setClassDetails(data);
@@ -39,7 +39,7 @@ const UpdateClassDetails = () => {
             title, price, description, photo, email, name,image
         };
 
-        fetch(`http://localhost:5000/updateClass/${id}`, {
+        fetch(`https://edu-fusion-server.vercel.app/updateClass/${id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'

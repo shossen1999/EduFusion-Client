@@ -21,7 +21,7 @@ const AddClass = () => {
             title, name, email, price, description, image
         };
 
-        fetch('http://localhost:5000/classes', {
+        fetch('https://edu-fusion-server.vercel.app/classes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

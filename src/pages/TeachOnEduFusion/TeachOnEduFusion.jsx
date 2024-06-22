@@ -22,7 +22,7 @@ const TeachOnEduFusion = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/teacher-requests', {
+            const response = await fetch('https://edu-fusion-server.vercel.app/teacher-requests', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

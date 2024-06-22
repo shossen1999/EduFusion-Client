@@ -12,6 +12,7 @@ import UpdateClassDetails from "../pages/Dashboard/UpdateClassDetails/UpdateClas
 // import ClassDetails from "../pages/AllClasses/ClassDetailsAll";
 import ClassDetails from "../pages/Dashboard/ClassDetails/ClassDetails";
 import ClassDetailsAll from "../pages/AllClasses/ClassDetailsAll";
+import PaymentPage from "../pages/AllClasses/PaymentPage";
 
 const router = createBrowserRouter([
     {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
         {
           path:"/classes/:id",
           element:<ClassDetailsAll></ClassDetailsAll>
+        },
+        {
+          path:"/payment/:id",
+          element:<PaymentPage></PaymentPage>
         }
         
         
@@ -72,7 +77,7 @@ const router = createBrowserRouter([
         {
           path:"classDetails/:id",
           element:<ClassDetails></ClassDetails>,
-          loader:({params})=>fetch(`http://localhost:5000/classes/${params.id}`)
+          loader:({params})=>fetch(`https://edu-fusion-server.vercel.app/classes/${params.id}`)
         },
       ]
     }

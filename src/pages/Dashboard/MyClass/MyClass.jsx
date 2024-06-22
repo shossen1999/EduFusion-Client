@@ -12,7 +12,7 @@ const MyClasses = () => {
         if (user?.email) {
             const fetchClasses = async () => {
                 try {
-                    const response = await fetch(`http://localhost:5000/classes/user/${user.email}`);
+                    const response = await fetch(`https://edu-fusion-server.vercel.app/classes/user/${user.email}`);
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }

@@ -22,7 +22,7 @@ const MyClassCards = ({ myClass, classes, setClasses }) => {
     }).then((result) => {
         if (result.isConfirmed) {
             console.log("User confirmed deletion");
-            fetch(`http://localhost:5000/delete/${_id}`, {
+            fetch(`https://edu-fusion-server.vercel.app/delete/${_id}`, {
                 method: 'DELETE'
             })
             .then(res => {

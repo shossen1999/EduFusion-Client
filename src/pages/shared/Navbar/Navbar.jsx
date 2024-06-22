@@ -91,7 +91,7 @@ const Navbar = () => {
                             <li className="justify-between">
                                 <span>{user.displayName || 'Username'}</span>
                             </li>
-                            <li><Link to="/dashboard">Teacher Dashboard</Link></li>
+                            <li><Link to="/dashboard">Dashboard</Link></li>
                             <li><button onClick={handleLogout}>Logout</button></li>
                         </ul>
                     </div>
