@@ -56,8 +56,8 @@ const Navbar = () => {
                     {menuOpen && (
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                             <li onClick={handleRouteClick}><NavLink className={({ isActive }) => isActive ? 'text-[#23BE0A] font-semibold text-[18px]' : 'font-semibold text-[18px] '} to="/">Home</NavLink></li>
-                            <li onClick={handleRouteClick}><NavLink className={({ isActive }) => isActive ? 'text-[#23BE0A] font-semibold text-[18px]' : 'font-semibold text-[18px] '} to="/allClasses">All Classes</NavLink></li>
-                            <li onClick={handleRouteClick}><NavLink className={({ isActive }) => isActive ? 'text-[#23BE0A] font-semibold text-[18px]' : 'font-semibold text-[18px] '} to="/teach">Teach on EduFusion</NavLink></li>
+                            <li onClick={handleRouteClick}><NavLink className={({ isActive }) => isActive ? 'text-[#23BE0A] font-semibold text-[18px]' : 'font-semibold text-[18px] '} to="/public-classes">All Classes</NavLink></li>
+                            <li onClick={handleRouteClick}><NavLink className={({ isActive }) => isActive ? 'text-[#23BE0A] font-semibold text-[18px]' : 'font-semibold text-[18px] '} to="/teach-on-lear-ease">Teach on EduFusion</NavLink></li>
                         </ul>
                     )}
                 </div>
@@ -70,8 +70,8 @@ const Navbar = () => {
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
                     <li><NavLink className={({ isActive }) => isActive ? 'text-[#23BE0A] font-semibold text-[18px]' : 'font-semibold text-[18px] '} to="/">Home</NavLink></li>
-                    <li><NavLink className={({ isActive }) => isActive ? 'text-[#23BE0A] font-semibold text-[18px]' : 'font-semibold text-[18px] '} to="/allClasses">All Classes</NavLink></li>
-                    <li><NavLink className={({ isActive }) => isActive ? 'text-[#23BE0A] font-semibold text-[18px]' : 'font-semibold text-[18px] '} to="/teach">Teach on EduFusion</NavLink></li>
+                    <li><NavLink className={({ isActive }) => isActive ? 'text-[#23BE0A] font-semibold text-[18px]' : 'font-semibold text-[18px] '} to="/public-classes">All Classes</NavLink></li>
+                    <li><NavLink className={({ isActive }) => isActive ? 'text-[#23BE0A] font-semibold text-[18px]' : 'font-semibold text-[18px] '} to="/teach-on-lear-ease">Teach on EduFusion</NavLink></li>
                 </ul>
             </div>
             <div className="navbar-end">

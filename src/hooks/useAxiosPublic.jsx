@@ -1,8 +1,9 @@
 import axios from "axios";
 
-const axiosPublic  = axios.create({
-    baseURL: 'https://edu-fusion-server.vercel.app/',
-})
+const axiosPublic = axios.create({
+    baseURL: 'http://localhost:5173'
+});
+
 const useAxiosPublic = () => {
     return axiosPublic;
 };

@@ -1,8 +1,27 @@
-# React + Vite
+# Website Name
+EduFusion
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Live Link
+-[Live Link of EduFusion](https://edu-fusion-ab009.web.app/)
 
-Currently, two official plugins are available:
+# Features and Characteristics
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* User Authentication: Implement login and registration systems, including Google Sign-in, with JWT for session management.
+
+* Responsive Design: Ensure the platform is fully responsive across all device types, including mobile, tablet, and desktop views.
+
+* Navbar and Profile Management: Display user-specific navbar options, including profile picture and a dropdown menu with user details, dashboard access, and logout functionality.
+
+* Home Page Features: Showcase banner images, partners/collaborators, popular or recommended classes, feedback carousel, user statistics, and teacher recruitment section.
+
+* Class Management: Display all approved classes in a card format with relevant details and an enroll button that leads to class details and payment pages.
+
+* Student Dashboard: Allow students to view their enrolled classes, profile information, and provide feedback via a dedicated dashboard interface.
+
+* Teacher Application: Enable users to apply for teaching positions with a form, submit for review, and track application status through the dashboard.
+
+* Admin Dashboard: Allow admin to manage teacher requests, users, and all classes with approval/rejection functionalities and progress tracking.
+
+* Assignments and Evaluations: Teachers can add and manage assignments; students can submit assignments and provide feedback, all tracked and displayed in relevant dashboards.
+
+* Data Fetching and Alerts: Utilize TanStack Query for GET requests, show custom notifications for CRUD operations, and implement pagination for efficient data display in tables and cards.
