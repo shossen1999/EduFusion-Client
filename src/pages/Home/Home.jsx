@@ -2,11 +2,14 @@ import Feedback from "../../Components/Feedback/Feedback";
 import HighlightClass from "../../Components/HighlightClass/HighlightClass";
 
 import NewsLetter from "../../Components/NewsLetter/NewsLetter";
+import OurPartners from "../../Components/OurPartners/OurPartners";
 
-import OurTeam from "../../Components/OurTeam/OurTeam";
-import Partner from "../../Components/Partner/Partner";
+
+
 import SwipperSlider from "../../Components/SwipperSlider/SwipperSlider";
 import TeacherSection from "../../Components/TeacherSection/TeacherSection";
+import Team from "../../Components/Team/Team";
+
 import WebDetails from "../../Components/WebDetails/WebDetails";
 
 const Home = () => {
@@ -17,9 +20,13 @@ const Home = () => {
             <HighlightClass></HighlightClass>
             <TeacherSection></TeacherSection>
            
+           
             <WebDetails></WebDetails>
-            <OurTeam></OurTeam>
-            <Partner></Partner>
+            <Team></Team>
+           
+
+            <OurPartners></OurPartners>
+         
             <Feedback></Feedback>
             <NewsLetter></NewsLetter>
         </div>

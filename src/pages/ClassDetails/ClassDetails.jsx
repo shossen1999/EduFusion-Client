@@ -1,71 +1,54 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import useAuth from "../../Hooks/useAuth";
-import Swal from "sweetalert2";
+import { Link, useParams } from "react-router-dom";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const ClassDetails = () => {
-  const axiosPublic = useAxiosPublic();
   const { id } = useParams();
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  const { data: details = [], refetch } = useQuery({
-    queryKey: ["detailsClass"],
+  const axiosSecure = useAxiosSecure();
+  const { data = [], isPending } = useQuery({
+    queryKey: ['classDetails', { id }],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/classdetails/${id}`);
+      const res = await axiosSecure.get(`/classes?id=${id}`);
       return res.data;
-    },
+    }
   });
 
-  const handlePay = () => {
-    const classId = details._id;
-    const title = details.title;
-    const name = details.name;
-    const image = details.image;
-    const totalEnroll = details.totalEnroll;
-    const enroll = totalEnroll + 1;
-    const userName = user?.displayName;
-    const userEmail = user?.email;
-    const classInfo = { classId, title, name, image, userName, userEmail, enroll };
-    console.log(classInfo);
-    axiosPublic.post("/enroll", classInfo).then((res) => {
-      console.log(res.data);
-      if (res.data.enrollResult.insertedId && res.data.countResult.modifiedCount > 0) {
-        refetch();
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Your work has been saved",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate("/dashboard/enroll-classes");
-      }
-    });
-  };
+  if (isPending) {
+    return <div className="text-center py-8">Loading...</div>;
+  }
+
+  const aClass = data.length > 0 ? data[0] : {};
 
   return (
-    <div className="mt-10">
-      <div className="max-w-xl mx-auto">
-        <img src={details.image} alt="" />
-      </div>
-      <div className="max-w-2xl mx-auto mt-3">
-        <div className="flex gap-10 justify-between">
-          <p className="text-xl font-semibold">Title : {details.title}</p>
-          <p className="text-xl font-semibold">Price : ${details.price}</p>
+    <div className="max-w-4xl mx-auto p-8 bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-lg">
+      <div className="md:flex md:space-x-6">
+        {/* Left Column - Image */}
+        <div className="md:w-1/2">
+          <img
+            className="w-full h-64 md:h-80 object-cover rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"
+            src={aClass.image}
+            alt={aClass.title}
+          />
         </div>
-        <p className="mt-1 text-lg font-medium">Teacher : {details.name}</p>
-        <p className="mt-1">Short Description : {details.shortDes}</p>
-        <p className="mt-1">Description : {details.description}</p>
-        <Link>
-          <button
-            onClick={handlePay}
-            className="btn btn-ghost bg-[#e67e22] text-white hover:text-black w-full mt-2"
-          >
-            Pay
-          </button>
-        </Link>
+
+        {/* Right Column - Content */}
+        <div className="md:w-1/2 space-y-4 mt-6 md:mt-0">
+          <h1 className="text-4xl font-extrabold text-gray-800">{aClass.title}</h1>
+          <p className="text-lg font-semibold text-gray-600">Instructor: {aClass.name}</p>
+          <p className="text-md text-gray-500">Email: {aClass.email}</p>
+          <p className="text-lg text-gray-800 font-semibold">
+            Price: <span className="text-2xl text-blue-600">${aClass.price}</span>
+          </p>
+          <p className="text-md text-gray-700 leading-relaxed">{aClass.description}</p>
+
+          <div className="w-full ">
+              <Link to={`/payment/${aClass._id}`} className="mx-auto">
+                  <button className="font-bold text-white px-4 py-2 rounded-full bg-[#7b7b7b]  hover:bg-cyan-700">PAY</button>
+              </Link>
+
+
+          </div>
+        </div>
       </div>
     </div>
   );

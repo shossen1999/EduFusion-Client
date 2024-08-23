@@ -1,81 +1,115 @@
+import {
+    CardHeader,
+    CardBody,
+    CardFooter,
+    Typography,
+    Input,
+    Checkbox,
+    Button,
+} from "@material-tailwind/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
+import { useContext, useState } from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
-import useAuth from "../../hooks/useAuth";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import SocialLogin from "./SocialLogin";
-import { Helmet } from "react-helmet";
+import { toast } from "react-toastify";
+import { MdErrorOutline } from "react-icons/md";
+import { FcGoogle } from "react-icons/fc";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const Login = () => {
-    const { signInUser } = useAuth();
+    const [show, setShow] = useState(false);
+    const [error, setError] = useState('');
+    const { logIn, googleLogin } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const location = useLocation();
+    const axiosPublic = useAxiosPublic();
     const {
         register,
+        formState: { errors },
         handleSubmit,
-        formState: { errors }
     } = useForm();
-       
 
-     // navigation systems
-     const navigate = useNavigate();
-     const location = useLocation();
-     console.log(location);
-     const from = location?.state || "/"; 
-    const onSubmit = async (data) => {
-        const { email, password } = data;
-        
-        try {
-            await signInUser(email, password)
-            .then((result) => {
-                if (result.user) {
-                    navigate(from);
-                }
+    const onSubmit = (data) => {
+        setError('');
+        setLoading(true);
+        logIn(data.email, data.password)
+            .then(result => {
+                toast.success('Login successfully!');
+                navigate(location?.state ? location.state : '/');
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error(err.message);
+                setError(err.message);
+                setLoading(false);
             });
-            
-        } catch (error) {
-            console.error("Login failed:", error.message);
-            // Show error toast
-            toast.error("Invalid email or password");
-        }
+    };
+
+    const handleGoogleLogin = () => {
+        googleLogin()
+            .then(result => {
+                const user = result.user;
+                const newUser = {
+                    name: user.displayName,
+                    email: user.email,
+                    image: user.photoURL,
+                    role: 'student'
+                };
+
+                axiosPublic.post('/users', newUser)
+                    .then(res => {
+                        if (res.data.inserterId) {
+                            toast.success('Login successfully!');
+                        }
+                        navigate(location?.state ? location.state : '/');
+                    });
+            })
+            .catch(err => {
+                console.error(err);
+                toast.error('Error with Google login');
+            });
     };
 
     return (
-        <div>
-           
-            <div>
-            <ToastContainer />
-            <Helmet>
-            <title>Login Page</title>
-            </Helmet>
-                <h3 className="text-3xl text-center">Please Login</h3>
-                <form onSubmit={handleSubmit(onSubmit)} className="card-body lg:w-1/2 mx-auto">
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Email</span>
-                        </label>
-                        <input type="email"
-                            name="email" placeholder="Email"
-                            className="input input-bordered" {...register("email", { required: true })} />
-                        {errors.email && <span className="text-red-700">This field is required</span>}
+        <div
+            className="flex min-h-screen items-center justify-center bg-gradient-to-r from-gray-800 via-gray-900 to-black"
+        >
+            <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+                <h1 className="text-3xl font-bold text-center mb-6">Sign In</h1>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Email</label>
+                        <Input {...register("email", { required: true })} name="email" type="email" size="lg" className="mt-1 block w-full" />
                     </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Password</span>
-                        </label>
-                        <input type="password"
-                            name="password" placeholder="Password"
-                            className="input input-bordered" {...register("password", { required: true })} />
-                        {errors.password && <span className="text-red-700">This field is required</span>}
-                        <label className="label">
-                            <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                        </label>
+                    <div className="relative">
+                        <label className="block text-sm font-medium text-gray-700">Password</label>
+                        <Input {...register("password", { required: true })} name="password" type={show ? "text" : "password"} size="lg" className="mt-1 block w-full" />
+                        {show ?
+                            <FaRegEyeSlash onClick={() => setShow(false)} className="absolute inset-y-0 right-3 flex items-center text-xl cursor-pointer" />
+                            :
+                            <FaRegEye onClick={() => setShow(true)} className="absolute inset-y-0 right-3 flex items-center text-xl cursor-pointer" />
+                        }
                     </div>
-                    <div className="form-control mt-6">
-                        <button className="btn btn-primary">Login</button>
-                    </div>
+                    {error && <p className="text-red-500 text-sm flex items-center gap-1"><MdErrorOutline /> {error}</p>}
+                    <Button
+                        type="submit"
+                        className="w-full py-2 bg-blue-600 text-white rounded-lg font-bold transition-transform transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                    >
+                        {loading ? <span className="loading loading-spinner loading-sm text-white"></span> : 'Sign In'}
+                    </Button>
+                    <div className="text-center my-4 text-gray-600">OR</div>
+                    <Button onClick={handleGoogleLogin} className="w-full py-2 bg-gray-800 text-white rounded-lg flex items-center justify-center gap-2 cursor-pointer">
+                        <FcGoogle /> Google
+                    </Button>
+                    <Typography color="gray" className="text-center text-sm mt-4">
+                        Don&apos;t have an account?{" "}
+                        <Link to={'/register'} className="text-blue-500 underline font-bold">
+                            Sign Up
+                        </Link>
+                    </Typography>
                 </form>
-                <SocialLogin></SocialLogin>
-                <p className="text-center mt-4">Don't have an account? Please <Link className="text-blue-700 font-bold" to="/register">Register</Link></p>
             </div>
         </div>
     );

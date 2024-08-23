@@ -1,78 +1,79 @@
-import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { Link } from "react-router-dom";
-import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
+import useClasses from "../../Hooks/useClasses";
+import Btn from "../Btn";
+import React from 'react';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
 const HighlightClass = () => {
-  const axiosPublic = useAxiosPublic();
+    const status = 'accepted';
+    const [classes, refetch, classPending] = useClasses(status);
+    const popularClasses = [...classes].sort((a, b) => b.total_enrollment - a.total_enrollment);
 
-  const { data: highClass = [], isLoading, isError, error } = useQuery({
-    queryKey: ["classHighlighted"],
-    queryFn: async () => {
-      const res = await axiosPublic.get("/highlighted");
-      return res.data;
-    },
-  });
+    if (classPending) {
+        return <div>Loading...</div>;
+    }
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  if (!Array.isArray(highClass)) {
-    return <div>No highlighted classes available.</div>;
-  }
-
-  return (
-    <div>
-      <div className="container mx-auto p-4 my-6 space-y-2 text-center">
-        <h2 className="text-5xl font-bold">Highlighted Classes</h2>
-        <p className="dark:text-gray-600">Our Most Popular and Impactful Courses</p>
-      </div>
-
-      <Swiper
-        slidesPerView={"auto"}
-        spaceBetween={30}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Pagination]}
-        className="mySwiper"
-      >
-        {highClass.map((item) => (
-          <SwiperSlide className="justify-center max-w-2xl mx-auto " key={item._id}>
-            <div className="border border-gray-700 bg-orange-100 rounded-sm p-4 mt-5 items-center justify-center max-w-2xl">
-              <div>
-                <img className="w-full max-h-52 rounded mx-auto" src={item.image} alt="" />
-              </div>
-              <div className="mt-2">
-                <h3 className="text-2xl font-semibold">Title : {item.title}</h3>
-                <div className="text-lg">
-                  <p>Educator : {item.name}</p>
-                </div>
-                <div>
-                  <p>Price : ${item.price}</p>
-                </div>
-                <p>Short Description : {item.shortDes}</p>
-              </div>
-              <Link to={`/public-class-details/${item._id}`}>
-                <button className="btn btn-ghost btn-sm bg-[#e67e22] text-white hover:text-black mt-2 w-full">
-                  Enroll
-                </button>
-              </Link>
+    return (
+        <div className="h-[600px] container mx-auto my-10">
+            <h1 className="text-center text-3xl font-bold mb-4">Popular Classes</h1>
+            <Swiper
+                modules={[Navigation, Pagination, Scrollbar, A11y]}
+                slidesPerView={3}
+                navigation
+                pagination={{ clickable: true }}
+                spaceBetween={30}
+                breakpoints={{
+                    425: { slidesPerView: 1, spaceBetween: 10 },
+                    768: { slidesPerView: 2, spaceBetween: 20 },
+                    1024: { slidesPerView: 3, spaceBetween: 30 },
+                }}
+                className="my-swiper"
+            >
+                {popularClasses.slice(0, 6).map((singleClass, idx) => (
+                    <SwiperSlide key={idx}>
+                        <div className='border border-grey mb-12'> 
+                        <div >
+                            <img src={singleClass.image} alt={singleClass.title} className="relative h-[290px] w-full bg-no-repeat " />
+                          
+                        </div>
+                        <div className='p-4'>
+                        <h1 className="text-xl font-bold text-white underline underline-offset-8">{singleClass.title}</h1>
+                            <div className='flex flex-col '>
+                            <p className="text-white">Enrolled: {singleClass.total_enrollment}</p>
+                            <p className="text-white">Instructor: {singleClass.name}</p>
+                            <p className="text-white">Price: ${singleClass.price}</p>
+                            <div className="flex-1 h-full flex items-center justify-center">
+                                    <Link className="w-full" to={`/classDetails/${singleClass._id}`}>
+                                        <button className="px-4 py-2 rounded-full bg-[#7b7b7b] btn-block text-white font-bold hover:bg-cyan-700">
+                                            Enroll
+                                        </button>
+                                    </Link>
+                                </div>
+                            {/* <p className="text-white">Description: ${singleClass.description}</p> */}
+                            </div>
+                          
+                        </div>
+                        </div>
+                        {/* <img className="w-[400px] h-[450px] object-cover object-center" src={singleClass.image} alt={singleClass.title} />
+                        <div className="absolute inset-0 bg-black bg-opacity-40 space-y-4 p-6">
+                            <h1 className="text-xl font-bold text-white underline underline-offset-8">{singleClass.title}</h1>
+                            <p className="text-white">Enrolled: {singleClass.total_enrollment}</p>
+                        </div> */}
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+            <div className="flex items-center justify-center py-4">
+                <Link to="/allClasses">
+                    <Btn text="See All Classes" />
+                </Link>
             </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default HighlightClass;

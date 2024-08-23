@@ -1,173 +1,113 @@
+import {
+    CardHeader,
+    CardBody,
+    CardFooter,
+    Typography,
+    Input,
+    Checkbox,
+    Button,
+} from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useState, useContext } from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
-import useAuth from "../../hooks/useAuth";
-import { useState } from "react"; // Corrected import
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { updateProfile } from "firebase/auth";
-import Swal from "sweetalert2";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { toast } from "react-toastify";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { AuthContext } from "../../providers/AuthProvider";
+
 const Register = () => {
-    const axiosPublic = useAxiosPublic();
-    const { createUser } = useAuth();
-    const [registerError, setRegisterError] = useState('');
-    const [success, setSuccess] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
+    const [show, setShow] = useState(false);
+    const { createUser, updateUser, logOut } = useContext(AuthContext);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [error, setError] = useState('');
+    const axiosPublic = useAxiosPublic();
+
     const {
         register,
+        formState: { errors },
         handleSubmit,
-        formState: { errors }
     } = useForm();
+
     const onSubmit = (data) => {
-        const { fullName, image, email, password } = data;
-        console.log(password);
-        // password validation start 
-        if (password.length < 6) {
-            setRegisterError('Password should be at least 6 character or longer');
-            return;
-        }
-        else if (!/[A-Z]/.test(password)) {
-            setRegisterError('Password should have at least one uppercase letter');
-            return;
-        }
-        else if (!/[a-z]/.test(password)) {
-            setRegisterError('Password should have at least one lowercase letter');
-            return;
-        }
-        // reset error 
-        setRegisterError('');
-        setSuccess('');
-
-        // create user 
-        createUser(email, password)
+        setError('');
+        setLoading(true);
+        createUser(data.email, data.password)
             .then(result => {
-                console.log(result.user);
-                setSuccess('User Created Successfully');
-                toast.success('User Created Successfully');
-                // update profile
-                updateProfile(result.user, {
-                    displayName: fullName,
-                    photoURL: image
-                })
+                updateUser(data.name, data.photoURL)
                     .then(() => {
-                        const userInfo = {
-                            name: fullName,
-                            email: email
-                        }
-                        axiosPublic.post('/users', userInfo)
-                            .then(res => {
-                                if (res.data.insertedId) {
-                                    console.log('user added to the database');
-                                    // reset()
-                                    Swal.fire({
-                                        position: "top-end",
-                                        icon: "success",
-                                        title: "User Created Successfully",
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    });
-                                    navigate("/");
-                                }
-                            })
+                        const user = {
+                            name: data.name,
+                            email: data.email,
+                            image: data.photoURL,
+                            contactNumber: data.number,
+                            role: 'student'
+                        };
 
+                        axiosPublic.post('/users', user)
+                            .then(res => console.log(res.data));
 
-                    })
-                    .catch()
+                        logOut()
+                            .then()
+                            .catch();
+                        
+                        setLoading(false);
+                        toast.success('Account created successfully!');
+                        navigate('/login');
+                    });
             })
-            .catch(error => {
-                console.error(error);
-                setRegisterError(error.message);
+            .catch(err => {
+                console.error(err);
+                setLoading(false);
+                setError(err.message);
             });
     };
 
     return (
-        <div>
-
-
-            <div>
-                <ToastContainer />
-                <h3 className="text-3xl text-center">Please Register</h3>
-                <form onSubmit={handleSubmit(onSubmit)} className="card-body lg:w-1/2 mx-auto">
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Name</span>
-                        </label>
-                        <input type="text"
-                            name="name"
-                            placeholder="name"
-                            className="input input-bordered"
-                            {...register("fullName", { required: true })}
-                        />
-                        {errors.fullName && <span className="text-red-700">This field is required</span>}
+        <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-gray-800 via-gray-900 to-black">
+            <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+                <h1 className="text-3xl font-bold text-center mb-6">Sign Up</h1>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Name</label>
+                        <Input {...register("name", { required: true })} name="name" type="text" size="lg" className="mt-1 block w-full" />
                     </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Photo URL</span>
-                        </label>
-                        <input type="text"
-                            name="photo"
-                            placeholder="Photo URL"
-                            className="input input-bordered"
-                            {...register("image")}
-                        />
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Email</label>
+                        <Input {...register("email", { required: true })} name="email" type="email" size="lg" className="mt-1 block w-full" />
                     </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Email</span>
-                        </label>
-                        <input type="email"
-                            name="email"
-                            placeholder="email"
-                            className="input input-bordered"
-                            {...register("email", { required: true })}
-                        />
-                        {errors.email && <span className="text-red-700">This field is required</span>}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Photo URL</label>
+                        <Input {...register("photoURL", { required: true })} name="photoURL" type="text" size="lg" className="mt-1 block w-full" />
                     </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Password</span>
-                        </label>
-                        <div className="relative ">
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                name="password"
-                                placeholder="password"
-                                className="input input-bordered w-full"
-                                {...register("password", { required: true })}
-                            />
-                            <span className="absolute top-4 right-2" onClick={() => setShowPassword(!showPassword)}>
-                                {
-                                    showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>
-                                }
-
-                            </span>
-
-                            {errors.password && <span className="text-red-700">This field is required</span>}
-                        </div>
-                        <label className="label">
-                            <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                        </label>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Contact Number</label>
+                        <Input {...register("number", { required: true })} name="number" type="tel" size="lg" className="mt-1 block w-full" />
                     </div>
-                    <div className="form-control mt-6">
-                        <button className="btn btn-primary">Register</button>
+                    <div className="relative">
+                        <label className="block text-sm font-medium text-gray-700">Password</label>
+                        <Input {...register("password", { required: true })} name="password" type={show ? "text" : "password"} size="lg" className="mt-1 block w-full" />
+                        {show ? 
+                            <FaRegEyeSlash onClick={() => setShow(false)} className="absolute inset-y-0 right-3 flex items-center text-xl cursor-pointer" />
+                            : 
+                            <FaRegEye onClick={() => setShow(true)} className="absolute inset-y-0 right-3 flex items-center text-xl cursor-pointer" />
+                        }
                     </div>
-                    {
-                        registerError && <p className="text-red-700">{registerError}</p>
-                    }
-                    {
-                        success && <p className="text-green-700">{success}</p>
-                    }
+                    {error && <p className="text-red-500 text-sm flex items-center gap-1"><MdErrorOutline /> {error}</p>}
+                    <Button
+                        type="submit"
+                        className="w-full py-2 bg-blue-600 text-white rounded-lg font-bold transition-transform transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                    >
+                        {loading ? <span className="loading loading-spinner loading-sm text-white"></span> : 'Sign Up'}
+                    </Button>
+                    <Typography color="gray" className="text-center text-sm mt-4">
+                        Already have an account?{" "}
+                        <Link to={'/login'} className="text-blue-500 underline font-bold">
+                            Log In
+                        </Link>
+                    </Typography>
                 </form>
-
-                <p className="text-center mt-4 ">Already have an account? Please <Link className="text-blue-700 font-bold" to="/login">Login</Link></p>
-
-
-
             </div>
-
         </div>
     );
 };

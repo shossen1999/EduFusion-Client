@@ -2,33 +2,31 @@ import { createBrowserRouter } from "react-router-dom";
 import Layouts from "../Layouts/Layouts";
 import ErrorElement from "../ErrorElement/ErrorElement";
 
-import DashboardLayouts from "../Layouts/DashboardLayouts";
-import PrivateRoutes from "./PrivateRoutes";
-import AdminRoutes from "./AdminRoutes";
 
-import SignUp from './../pages/SignUp/SignUp';
-import SignIn from './../pages/SignIn/SignIn';
+import PrivateRoutes from "./PrivateRoutes";
+
 import Home from './../pages/Home/Home';
 import TeachOnEduFusion from './../pages/TeachOnEduFusion/TeachOnEduFusion';
-import AdminHome from './../pages/AdminDash/AdminHome';
-import TeacherRequ from './../pages/AdminDash/TeacherRequ';
-import Users from './../pages/AdminDash/Users';
-import AllClasses from './../pages/AllClasses/AllClasses';
-import UserProfile from './../pages/UserProfile';
-import UserHome from './../pages/UserDash/UserHome';
-import EnrollClasses from './../pages/UserDash/EnrollClasses';
-import TeacherHome from './../pages/TeacherDash/TeacherHome';
-// import AddClass from './../pages/Dashboard/AddClass/AddClass';
-import MyClass from './../pages/TeacherDash/MyClass';
-import UpdateClass from './../pages/TeacherDash/UpdateClass';
-import PublicClass from './../pages/PublicClass/PublicClass';
-// import ClassDetails from './../pages/Dashboard/ClassDetails/ClassDetails';
-import Payment from './../pages/Payment/Payment';
-import TeaClassDetails from './../pages/TeacherDash/TeaClassDetails';
-import MyEnrollClassDetails from './../pages/StudentDashboard/MyEnrollClassDetails/MyEnrollClassDetails';
-import SeeProgress from './../pages/AdminDash/SeeProgress';
-import AddClass from './../pages/TeacherDash/AddClass';
-import ClassDetails from './../pages/ClassDetails/ClassDetails';
+
+import Register from "../pages/Register/Register";
+import Login from "../pages/Login/Login";
+import Dashboard from "../Layouts/Dashboard/Dashboard";
+import Profile from '/src/pages/Profile/Profile.jsx';
+import MyEnrollClass from "../pages/MyEnrollClass/MyEnrollClass";
+import AllUsers from "../pages/AllUsers/AllUsers";
+import TeacherRequest from "../pages/TeacherRequest/TeacherRequest";
+import AddClass from "../pages/AddClass/AddClass";
+import MyClass from "../pages/MyClass/MyClass";
+import DashboardAllClasses from "../pages/DashboardAllClasses/DashboardAllClasses";
+import AllClasses from "../pages/AllClasses/AllClasses";
+import ClassDetails from "../pages/ClassDetails/ClassDetails";
+import Payment from "../pages/Payment/Payment";
+import UpdateClass from "../pages/UpdateClass/UpdateClass";
+import TeacherSeeDetails from "../pages/TeacherSeeDetails/TeacherSeeDetails";
+import StudentContinueDetails from "../pages/StudentContinueDetails/StudentContinueDetails";
+import AdminSeeProgress from "../pages/AdminSeeProgress/AdminSeeProgress";
+
+
 
 const router = createBrowserRouter([
   {
@@ -39,104 +37,94 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-      },
+       },
+       {
+        path:'/allClasses',
+        element:<AllClasses></AllClasses>
+       },
+       {
+        path:'/classDetails/:id',
+        element:<ClassDetails></ClassDetails>
+       },
+       {
+        path:'/payment/:id',
+        element:<Payment></Payment>
+       },
+
+    
       {
-        path: "/public-classes",
-        element: <PublicClass></PublicClass>
-      },
-      {
-        path: "/public-class-details/:id",
-        element: <ClassDetails></ClassDetails>
-      },
-      {
-        path : "/payment/:id",
-        element: <Payment></Payment>
-      },
-      {
-        path: "/teach-on-lear-ease",
+        path: "/teachOnEduFusion",
         element: <TeachOnEduFusion></TeachOnEduFusion>
       },
+     
       {
-        path: "/sign-up",
-        element: <SignUp></SignUp>
+          path: '/register',
+          element: <Register />
       },
       {
-        path: "/sign-in",
-        element: <SignIn></SignIn>
+          path: '/login',
+          element: <Login />
       },
     ],
   },
   {
     path: "/dashboard",
-    element: <PrivateRoutes><DashboardLayouts></DashboardLayouts></PrivateRoutes>,
+    element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>,
     children: [
-      // admin routes
       {
-        path: "admin-home",
-        element: <AdminRoutes><AdminHome></AdminHome></AdminRoutes>
+        path: 'teacherRequest',
+        element: <TeacherRequest></TeacherRequest>
+    },
+     
+       {
+        path: "allUsers",
+        element:<AllUsers></AllUsers>
       },
       {
-        path: "teacher-request",
-        element: <AdminRoutes><TeacherRequ></TeacherRequ></AdminRoutes>
+        path: 'dashAllClass',
+        element:<DashboardAllClasses></DashboardAllClasses>
       },
-      {
-        path: "users",
-        element: <AdminRoutes><Users></Users></AdminRoutes>
-      },
-      {
-        path: "all-classes",
-        element: <AdminRoutes><AllClasses></AllClasses></AdminRoutes>
-      },
-      {
-        path: "see-progress/:id",
-        element: <AdminRoutes><SeeProgress></SeeProgress></AdminRoutes>
-      },
-      // admin routes
+     
+      
 
-      // teacher routes
       {
-        path: "teacher-home",
-        element: <TeacherHome></TeacherHome>
+        path:'addClass',
+        element:<AddClass></AddClass>
       },
       {
-        path: "add-class",
-        element: <AddClass></AddClass>
+        path:'myClass',
+        element:<MyClass></MyClass>
       },
       {
-        path: "my-class",
-        element: <MyClass></MyClass>
+          path:'updateClass/:id',
+          element:<UpdateClass></UpdateClass>
       },
       {
-        path: "update-class/:id",
-        element: <UpdateClass></UpdateClass>
-      },
-      {
-        path: "teacher-class/:id",
-        element: <TeaClassDetails></TeaClassDetails>
-      },
-      // teacher routes
+        path:'teacherSeeDetails/:id',
+        element:<TeacherSeeDetails></TeacherSeeDetails>
 
-      // user routes
+      },
+     
       {
-        path: "user-home",
-        element: <UserHome></UserHome>
+        path:"profile",
+        element:<Profile></Profile>
       },
       {
-        path: "enroll-classes",
-        element: <EnrollClasses></EnrollClasses>
+          path: 'myEnrolledClass',
+          element: <MyEnrollClass></MyEnrollClass>
       },
       {
-        path: "my-enroll-class-details/:id",
-        element: <MyEnrollClassDetails></MyEnrollClassDetails>
-      },
-      // user routes
+        path:'studentContinueDetails/:id',
+        element:<StudentContinueDetails></StudentContinueDetails>
 
-      // shared routes
+      },
       {
-        path: "profile",
-        element: <UserProfile></UserProfile>
-      }
-      // shared routes
+        path:'adminSeeProgress/:id',
+        element:<AdminSeeProgress></AdminSeeProgress>
+
+      },
+
+      
     ]
   }
 ]);

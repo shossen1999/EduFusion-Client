@@ -4,10 +4,10 @@ import { FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
 const Footer = () => {
   return (
     <div>
-        <footer className="footer bg-[#18555b] text-white p-10 ">
+        <footer className="footer bg-[#7b7b7b] text-black p-10 ">
             <aside>
                 <img src={logo} className="" alt="Logo" />
-                <p>Providing reliable Tech service since 1992</p>
+                <p>Providing reliable Tech service since 1999</p>
                 <p>E-mail: EduFusion@gmail.com</p>
                 <p>Contact: +880 1609197055</p>
             </aside>

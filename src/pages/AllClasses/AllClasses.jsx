@@ -1,33 +1,106 @@
-// src/pages/AllClasses/AllClasses.jsx
-import React, { useEffect, useState } from 'react';
-import ClassCard from './ClassCard';
-// import ClassCard from '../../components/ClassCard';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Input, Button } from "@material-tailwind/react";
+import useClasses from "../../Hooks/useClasses";
 
 const AllClasses = () => {
-    const [classes, setClasses] = useState([]);
+    const status = 'accepted';
+    const [classes, refetch, classPending] = useClasses(status);
 
-    useEffect(() => {
-        const fetchClasses = async () => {
-            try {
-                const response = await fetch('https://edu-fusion-server.vercel.app/classes');
-                const data = await response.json();
-                setClasses(data);
-            } catch (error) {
-                console.error('Error fetching classes:', error);
-            }
-        };
-
-        fetchClasses();
-    }, []);
+    if (classPending) {
+        return <div className="text-center">Loading...</div>;
+    }
 
     return (
-        <div className="container mx-auto p-4">
-            <h2 className="text-2xl font-bold mb-4">All Classes</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {classes.map(classInfo => (
-                    <ClassCard key={classInfo._id} classInfo={classInfo} />
+        <div className="p-6">
+            {/* Uncomment and adjust the search form if needed */}
+            {/* 
+            <form onSubmit={handleSearch} className="my-10 max-w-md mx-auto flex items-center gap-2">
+                <Input
+                    type="text"
+                    label="Search by class name..."
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                />
+                <Button type="submit">Search</Button>
+            </form>
+            */}
+
+            {/* No Classes Message */}
+            {classes.length === 0 && (
+                <div className="text-center mt-8">
+                    <h2 className="text-2xl font-bold text-blue-600">No classes found.</h2>
+                </div>
+            )}
+
+            {/* Classes Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {classes.map((aClass, idx) => (
+                    <div
+                        key={idx}
+                        className="card bg-base-100 shadow-xl border border-gray-200 overflow-hidden max-w-[380px] mx-auto"
+                    >
+                        <figure className="px-10 pt-10">
+                            <img
+                                src={aClass.image}
+                                alt={aClass.title}
+                                className="rounded-2xl w-full h-[180px] object-cover"
+                            />
+                        </figure>
+                        <div className="card-body p-6">
+                            <h2 className="text-xl font-bold mb-2">
+                                <span className="font-bold">Name:</span> {aClass.title}
+                            </h2>
+                            <p className="text-[14px] mb-2">
+                                <span className="font-bold">Instructor:</span> {aClass.name}
+                            </p>
+                            <p className="text-[14px] mb-2">
+                                <span className="font-bold">Price:</span> ${aClass.price}
+                            </p>
+                            <p className="text-[14px] mb-2">
+                                <span className="font-bold">Enrolled Students:</span> {aClass.total_enrollment}
+                            </p>
+                            {/* <p className="text-[14px] mb-2">
+                                <span className="font-bold">Description:</span> {aClass.description.length > 60
+                                    ? `${aClass.description}...`
+                                    : aClass.description}
+                            </p> */}
+                            <div className="flex-1 h-full flex items-center justify-center">
+                                    <Link className="w-full" to={`/classDetails/${aClass._id}`}>
+                                        <button className="px-4 py-2 rounded-full bg-[#7b7b7b] btn-block text-white font-bold hover:bg-cyan-700">
+                                            Enroll
+                                        </button>
+                                    </Link>
+                                </div>
+                        </div>
+                    </div>
                 ))}
             </div>
+
+            {/* Uncomment and adjust pagination if needed */}
+            {/* 
+            <div className="flex items-center gap-4 justify-center my-10">
+                <IconButton
+                    disabled={currentPage === 1}
+                    onClick={() => {
+                        setCurrentPage(currentPage - 1);
+                    }}
+                >
+                    <ArrowLeftIcon className="h-6 w-6" />
+                </IconButton>
+                <p>
+                    Page {currentPage} of {totalPages}
+                </p>
+                <IconButton
+                    disabled={currentPage === totalPages}
+                    onClick={() => {
+                        setCurrentPage(currentPage + 1);
+                    }}
+                >
+                    <ArrowRightIcon className="h-6 w-6" />
+                </IconButton>
+            </div>
+            */}
         </div>
     );
 };

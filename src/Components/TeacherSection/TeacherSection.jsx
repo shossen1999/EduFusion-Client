@@ -1,28 +1,26 @@
-
-import teacherImage from '../../assets/teacher.jpg';
-import {  useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import Btn from "../Btn";
+// import Btn from "../../../components/Btn";
+import instructor from "../../assets/teacher/instructor.jpg"
 
 const TeacherSection = () => {
-    const navigate = useNavigate();
-
-    const handleStartTeachingClick = () => {
-        navigate('/teach-on-lear-ease');
-    };
+    
     return (
-        <div className='flex flex-col md:flex-row gap-20 items-center max-w-5xl mx-auto mt-10'>
-        <div className='bg-orange-700 bg-opacity-50 w-96'>
-            <img src={teacherImage} alt="" />
+        <div className="flex flex-col-reverse md:flex-row-reverse gap-6 items-center justify-center w-11/12 md:w-4/5 mx-auto mt-10 md:mt-20">
+            <div className="md:w-1/2 space-y-4 ">
+                <h2 className="text-3xl font-bold text-white">Become an Instructor</h2>
+                <p>Interested in sharing your knowledge?Click the below button and fill out the form inside it to apply as a teacher on our platform and start inspiring students worldwide!</p>
+                <div>
+                    <Link to={'/teachOnEduFusion'}>
+                        <Btn text={'Start Teaching Today'} />
+                    </Link>
+                </div>
+            </div >
+            <div className="bg-white md:w-1/2">
+                <img className=" mix-blend-multiply" src={instructor} alt="" />
+            </div>
         </div>
-        <div className='text-center'>
-            <h2 className='text-3xl font-semibold'>Become an Instructor</h2>
-            <p className='mt-3 md:mt-5 text-xl'> Instructors from around the world teach millions of learners on EduFusion.
-                            We provide the tools and skills to teach what you love.</p>
-            <button 
-            onClick={handleStartTeachingClick}
-            className='btn bg-[#225ae6] text-white text-lg mt-3 md:mt-5'>Start teaching today</button>
-        </div>
-        </div>
-        
+
     );
 };
 

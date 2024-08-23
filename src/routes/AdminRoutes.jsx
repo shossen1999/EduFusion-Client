@@ -17,7 +17,7 @@ const AdminRoutes = ({children}) => {
         return children;
     }
 
-    return <Navigate to="/sign-in" state={{from: location}} replace></Navigate>
+    return <Navigate to={'/login'} state={location.pathname}></Navigate>
 };
 
 AdminRoutes.propTypes = {

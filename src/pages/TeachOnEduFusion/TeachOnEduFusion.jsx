@@ -1,188 +1,184 @@
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import useAuth from "../../Hooks/useAuth";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import Swal from "sweetalert2";
-import { useQuery } from "@tanstack/react-query";
-import useTeacher from "../../Hooks/useTeacher";
-import useAdmin from "../../Hooks/useAdmin";
+import swal from "sweetalert";
+import { AuthContext } from "../../providers/AuthProvider";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const TeachOnEduFusion = () => {
-    const { user } = useAuth();
-    const [isTeacher] = useTeacher();
-    const [isAdmin] = useAdmin();
-    const axiosPublic = useAxiosPublic();
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm();
-  
-    const { data: teacher = [], refetch } = useQuery({
-      queryKey: ["teacherDetails"],
-      queryFn: async () => {
-        const res = await axiosPublic.get(`/teacher/${user.email}`);
-        return res.data;
-      },
-    });
-  
-    const onSubmit = async (data) => {
-      const name = data.name;
-      const email = data.email;
-      const experience = data.experience;
-      const category = data.category;
-      const image = data.image;
-      const status = "pending";
-      const info = { name, email, experience, category, image, status };
-      axiosPublic.post("/teacher", info).then((res) => {
-        if (res.data.insertedId) {
-          refetch();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Teacher request successfully",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      });
+    const { user } = useContext(AuthContext);
+    const [status, setStatus] = useState('');
+    const [requestArray, setRequestArray] = useState([]);
+    const [triggerFetch, setTriggerFetch] = useState(false);
+    const { register, formState: { errors }, handleSubmit, setValue } = useForm();
+    const axiosSecure = useAxiosSecure();
+
+    useEffect(() => {
+        fetchTeacherRequest();
+    }, [user?.email, triggerFetch]);
+
+    const fetchTeacherRequest = () => {
+        if (!user?.email) return;
+        
+        axiosSecure.get(`/teacherRequest?email=${user.email}`)
+            .then(res => {
+                if (res.data.length > 0) {
+                    const [req] = res.data;
+                    populateForm(req);
+                    setStatus(req.status);
+                }
+                setRequestArray(res.data);
+            })
+            .catch(error => console.error('Error fetching teacher request:', error));
     };
-  
-    const handleApplyAgain = () => {
-      axiosPublic.delete(`/teacher/${user?.email}`)
-      .then(res => {
-        if(res.data.deletedCount > 0){
-          refetch();
+
+    const populateForm = (request) => {
+        setValue("experience", request.experience);
+        setValue("title", request.title);
+        setValue("category", request.category);
+    };
+
+    const onSubmit = (data) => {
+        const teacherData = prepareTeacherData(data);
+
+        if (status) {
+            updateTeacherRequest(teacherData);
+        } else {
+            createTeacherRequest(teacherData);
         }
-      })
+    };
+
+    const prepareTeacherData = (data) => ({
+        ...data,
+        status: 'pending',
+        photoURL: user.photoURL
+    });
+
+    const updateTeacherRequest = (teacher) => {
+        const id = requestArray[0]._id;
+        axiosSecure.put(`/teacherRequest/${id}`, teacher)
+            .then(res => handleResponse(res, 'modifiedCount'))
+            .catch(error => console.error('Error updating teacher request:', error));
+    };
+
+    const createTeacherRequest = (teacher) => {
+        axiosSecure.post('/teacherRequest', teacher)
+            .then(res => handleResponse(res, 'insertedId'))
+            .catch(error => console.error('Error submitting teacher request:', error));
+    };
+
+    const handleResponse = (res, responseKey) => {
+        if (res.data[responseKey]) {
+            swal("Request sent!", { icon: "success" });
+            setTriggerFetch(!triggerFetch);
+        }
     };
 
     return (
-        <div>
-        <div className="bg-gray-200 p-10 mt-5">
-          {teacher.status === "pending" && (
-            <p className="text-2xl md:text-4xl font-bold text-center mt-10">
-              Application for Teacher Role Pending Review
-            </p>
-          )}
-  
-          {teacher.status === "approved" && (
-            <p className="text-2xl md:text-4xl font-bold text-center mt-10">
-              Congratulations! You Are Now a Teacher
-            </p>
-          )}
-  
-          {teacher.status === "rejected" && (
-            <div className="text-center">
-              <p className="text-2xl md:text-4xl font-bold text-center mt-10">
-                Your Application for Teacher Role Was Not Approved
-              </p>
-              <button onClick={handleApplyAgain} className="btn btn-ghost bg-[#e67e22] text-white hover:text-black mt-2">Apply Again</button>
-            </div>
-          )}
-  
-          {teacher.length === 0 && !isTeacher && !isAdmin && (
-            <div className="bg-gray-200 p-10 mt-5">
-              <h1 className="text-2xl md:text-4xl font-bold text-center">
-                Become a Teacher: Shape the Future with Us
-              </h1>
-              <form className="mt-5" onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex gap-5">
-                  <label className="form-control w-full my-6">
-                    <div className="label">
-                      <span className="label-text">Name*</span>
-                    </div>
-                    <input
-                      {...register("name", { required: true })}
-                      type="text"
-                      placeholder="Type here"
-                      className="input input-bordered w-full"
+        <div className="flex justify-center items-center min-h-screen p-6"
+             style={{ backgroundImage: `url(https://thumbs.dreamstime.com/b/modern-abstract-motion-banner-dark-background-colourful-light-76877365.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+            <div className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 p-10 rounded-lg shadow-xl max-w-lg w-full">
+                {requestArray.length > 0 && requestArray[0].status === 'accepted' ? (
+                    <AcceptedRequest />
+                ) : (
+                    <TeacherRequestForm
+                        user={user}
+                        register={register}
+                        handleSubmit={handleSubmit}
+                        onSubmit={onSubmit}
+                        requestArray={requestArray}
+                        status={status}
                     />
-                    {errors.name && <span className="text-red-600">Name is required</span>}
-                  </label>
-  
-                  <label className="form-control w-full my-6">
-                    <div className="label">
-                      <span className="label-text">Email*</span>
-                    </div>
-                    <input
-                      type="email"
-                      defaultValue={user?.email}
-                      placeholder="Type here"
-                      disabled
-                      className="input input-bordered w-full"
-                    />
-                    <input type="hidden" defaultValue={user.email} {...register("email")} />
-                    {errors.email && <span className="text-red-600">Email is required</span>}
-                  </label>
-                </div>
-  
-                <div className="flex gap-5">
-                  <label className="form-control w-full my-6">
-                    <div className="label">
-                      <span className="label-text">Experience*</span>
-                    </div>
-                    <select
-                      defaultValue="default"
-                      {...register("experience", { required: true })}
-                      className="select select-bordered w-full"
-                    >
-                      <option disabled value={"default"}>
-                        Select a level
-                      </option>
-                      <option value="beginner">Beginner</option>
-                      <option value="Mid-level">Mid-Level</option>
-                      <option value="experienced">Experienced</option>
-                    </select>
-                  </label>
-  
-                  <label className="form-control w-full my-6">
-                    <div className="label">
-                      <span className="label-text">Category*</span>
-                    </div>
-                    <select
-                      defaultValue="default"
-                      {...register("category", { required: true })}
-                      className="select select-bordered w-full"
-                    >
-                      <option disabled value={"default"}>
-                        Select a category
-                      </option>
-                      <option value="Artificial Intelligence">Artificial Intelligence</option>
-                      <option value="Cyber Security">Cyber Security</option>
-                      <option value="Digital Marketing">Digital Marketing</option>
-                      <option value="Game Development">Game Development</option>
-                      <option value="Graphic Design">Graphics Design</option>
-                      <option value="Web Development">Web Development</option>
-                    </select>
-                  </label>
-                </div>
-  
-                <label className="form-control">
-                  <div className="label">
-                    <span className="label-text">Image URL*</span>
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    disabled
-                    defaultValue={user?.photoURL}
-                    className="input input-bordered w-full"
-                  />
-                  <input type="hidden" defaultValue={user.photoURL} {...register("image")} />
-                </label>
-  
-                <button
-                  type="submit"
-                  className="flex w-full text-white gap-2 items-center py-2 px-3 btn bg-[#e67e22] mt-2 hover:text-black"
-                >
-                  Submit
-                </button>
-              </form>
+                )}
             </div>
-          )}
         </div>
-      </div>
     );
 };
+
+const AcceptedRequest = () => (
+    <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+        <h1 className="text-2xl font-bold text-green-600">Your request has been accepted.</h1>
+    </div>
+);
+
+const TeacherRequestForm = ({ user, register, handleSubmit, onSubmit, requestArray, status }) => (
+    <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-8 rounded-lg shadow-lg w-full">
+        <h2 className="text-3xl font-medium mb-6 text-center text-cyan-600">Want to become teacher?</h2>
+
+        <ProfilePicture imgSrc={user?.photoURL} />
+        
+        <div className="grid grid-cols-2 gap-4">
+            <InputField label="Name" value={user?.displayName || ''} readOnly={true} register={register} name="userName" />
+            <InputField label="Email" value={user?.email || ''} readOnly={true} register={register} name="email" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+            <SelectField label="Experience" name="experience" options={experienceOptions} register={register} />
+            <InputField label="Title" placeholder="Title" register={register} name="title" />
+        </div>
+
+        <SelectField label="Category" name="category" options={categoryOptions} register={register} />
+
+        <SubmitButton disabled={requestArray.length && status !== 'rejected'} status={status} />
+    </form>
+);
+
+const ProfilePicture = ({ imgSrc }) => (
+    <div className="mb-4 text-center">
+        <img src={imgSrc} alt="User" className="w-24 h-24 rounded-full mx-auto border-4 border-gray-300 shadow-md" />
+    </div>
+);
+
+const InputField = ({ label, value, readOnly = false, register, name, placeholder }) => (
+    <div>
+        <label className="block text-gray-700 font-semibold mb-1">{label}:</label>
+        <input
+            {...register(name, { required: true })}
+            type="text"
+            defaultValue={value}
+            placeholder={placeholder}
+            readOnly={readOnly}
+            className={`w-full p-2 border border-gray-300 rounded-lg ${readOnly ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+        />
+    </div>
+);
+
+const SelectField = ({ label, name, options, register }) => (
+    <div>
+        <label className="block text-gray-700 font-semibold mb-1">{label}:</label>
+        <select {...register(name, { required: true })} className="w-full p-2 border border-gray-300 rounded-lg">
+            <option value=''>Select {label}</option>
+            {options.map((option, index) => (
+                <option key={index} value={option.value}>{option.label}</option>
+            ))}
+        </select>
+    </div>
+);
+
+const SubmitButton = ({ disabled, status }) => (
+    <button
+        disabled={disabled}
+        type="submit"
+        className={`w-full py-2 mt-4 rounded-full font-semibold transition-colors duration-300 ${disabled ? 'bg-gray-400 text-gray-200 cursor-not-allowed' : 'bg-purple-600 text-white hover:bg-purple-700 cursor-pointer'}`}
+    >
+        {status !== 'rejected' ? 'Submit for Review' : 'Request Another'}
+    </button>
+);
+
+const experienceOptions = [
+    { label: 'Beginner', value: 'beginner' },
+    { label: 'Experienced', value: 'experienced' },
+    { label: 'Mid-level', value: 'mid-level' }
+];
+
+const categoryOptions = [
+    { label: 'Web Development', value: 'web development' },
+    { label: 'Artificial Intelligence', value: 'artificial intelligence' },
+    { label: 'Robotics Engineering', value: 'robotics engineering' },
+    { label: 'Digital Marketing', value: 'digital marketing' },
+    { label: 'Graphic Design', value: 'graphic design' },
+    { label: 'Data Analysis', value: 'data analysis' },
+    { label: 'Project Management', value: 'project management' },
+    { label: 'Ethical Hacking', value: 'Ethical Hacking' }
+];
 
 export default TeachOnEduFusion;

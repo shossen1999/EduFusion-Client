@@ -1,92 +1,75 @@
-import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import ReactStars from "react-rating-stars-component";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-const Feedback = () => {
-  const axiosPublic = useAxiosPublic();
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
-  const { data: feed = [], isLoading, isError, error } = useQuery({
-    queryKey: ["feedback"],
-    queryFn: async () => {
-      const res = await axiosPublic.get("/rate");
-      return res.data;
-    },
-  });
+import { Rating } from '@material-tailwind/react';
+import useFeedback from '../../Hooks/useFeedback';
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+export default function Feedback() {
+    const { feedback } = useFeedback();
 
-  if (isError) {
-    return <div>Error: {error.message}</div>;
-  }
+    return (
+        <div className="container mx-auto my-10">
+            <h1 className='text-center text-3xl font-bold mb-10'>REVIEWS</h1>
+            <Swiper
+                modules={[Navigation, Pagination, Scrollbar, A11y]}
+                slidesPerView={4}
+                navigation
+                pagination={{ clickable: true }}
+                spaceBetween={30}
+                breakpoints={{
+                    300: { slidesPerView: 1, spaceBetween: 10 },
+                    425: { slidesPerView: 1, spaceBetween: 10 },
+                    768: { slidesPerView: 2, spaceBetween: 20 },
+                    1024: { slidesPerView: 3, spaceBetween: 30 },
+                    1280: { slidesPerView: 4, spaceBetween: 40 },
+                }}
+                className="my-swiper"
+            >
+                {
+                    feedback.map((text, idx) => (
+                        <SwiperSlide key={idx}>
+                            <div className='bg-[#D3E5E2] shadow-lg mb-12 h-[400px] text-black rounded-xl flex flex-col justify-between p-5'>
+                                {/* Quotation Mark */}
+                                <div className="flex justify-end mb-4">
+                                    <img src="https://i.ibb.co/N6pc4Wh/Quotation-Mark-PNG-Picture.png" alt="quote" className="w-[40px] h-[30px]" />
+                                </div>
 
-  if (!Array.isArray(feed)) {
-    return <div>No feedback available.</div>;
-  }
+                                {/* Class Name */}
+                                <h2 className='text-xl font-bold underline underline-offset-4 text-center'>{text.className}</h2>
 
-  return (
-    <div className="mt-10">
-      <h1 className="text-2xl md:text-5xl font-bold text-center mb-5">Feedback Section</h1>
+                                {/* Description */}
+                                <p className="text-[14px] text-center mt-3 mb-4">{text.description}</p>
 
-      <Swiper
-        slidesPerView={1}
-        spaceBetween={10}
-        pagination={{
-          clickable: true,
-        }}
-        breakpoints={{
-          "@0.00": {
-            slidesPerView: 1,
-            spaceBetween: 10,
-          },
-          "@0.75": {
-            slidesPerView: 2,
-            spaceBetween: 20,
-          },
-          "@1.00": {
-            slidesPerView: 3,
-            spaceBetween: 40,
-          },
-          "@1.50": {
-            slidesPerView: 4,
-            spaceBetween: 50,
-          },
-        }}
-        modules={[Pagination]}
-        className="mySwiper"
-      >
-        {feed.map((item) => (
-          <SwiperSlide key={item._id}>
-            <div className="border border-gray-600 p-4 text-center">
-              <div className="w-28 rounded-full mx-auto">
-                <img src={item.photo} alt="" />
-              </div>
-              <p>
-                <span className="text-lg font-medium">Name: </span>
-                {item.userName}
-              </p>
-              <p>
-                <span className="text-lg font-medium">Title: </span>
-                {item.title}
-              </p>
-              <p className="flex justify-center">
-                <ReactStars count={5} value={item.rate} size={50} activeColor="#ffd700" />
-              </p>
-              <p>
-                <span className="text-lg font-medium">Feedback: </span>
-                {item.description}
-              </p>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
-  );
-};
+                                {/* Class Image */}
+                                <div className="w-[120px] h-[120px] rounded-full mx-auto mb-4 overflow-hidden">
+                                    <img src={text.classImage} alt="Class" className="object-cover w-full h-full" />
+                                </div>
 
-export default Feedback;
+                                {/* Rating */}
+                                <div className="flex justify-center mb-4">
+                                    <Rating value={parseInt(text.rating)} readonly />
+                                </div>
+
+                                {/* User Info */}
+                                <div className="flex items-center gap-3">
+                                    <div className="w-12 h-12 rounded-full border border-black overflow-hidden">
+                                        <img src={text.userImage} alt="User" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div>
+                                        <p className='text-[16px] font-medium'>{text.userName}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </SwiperSlide>
+                    ))
+                }
+            </Swiper>
+        </div>
+    );
+}

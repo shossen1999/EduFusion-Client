@@ -10,18 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@stripe/react-stripe-js": "^2.7.1",
+    "@material-tailwind/react": "^2.1.9",
+    "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^3.5.0",
     "@tanstack/react-query": "^5.45.1",
     "aos": "^2.3.4",
     "axios": "^1.7.2",
+    "edu-fusion-client": "file:",
     "firebase": "^10.12.2",
     "jsonwebtoken": "^9.0.2",
     "localforage": "^1.10.0",
+    "lottie-react": "^2.4.0",
     "match-sorter": "^6.3.4",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-fast-marquee": "^1.6.5",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.51.5",
     "react-icons": "^5.2.1",
@@ -30,8 +34,9 @@
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
     "sort-by": "^1.2.0",
-    "sweetalert2": "^11.11.1",
-    "swiper": "^11.1.4"
+    "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.12.2",
+    "swiper": "^11.1.9"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

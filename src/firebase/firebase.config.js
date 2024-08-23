@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -12,12 +13,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase with error handling
-let app;
-try {
-  app = initializeApp(firebaseConfig);
-  console.log("Firebase initialized successfully");
-} catch (error) {
-  console.error("Firebase initialization error", error);
-}
 
-export default app;
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app)
+export default auth;
