@@ -1,20 +1,41 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Input, Button } from "@material-tailwind/react";
+import { Input, Button, IconButton } from "@material-tailwind/react";
+import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import useClasses from "../../Hooks/useClasses";
+import useWebDetail from "../../Hooks/useWebDetail";
 
 const AllClasses = () => {
-    const status = 'accepted';
-    const [classes, refetch, classPending] = useClasses(status);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [search, setSearch] = useState('');
+    const [searchValue, setSearchValue] = useState('');
+    const pageSize = 10;
 
-    if (classPending) {
+    const [webDetail, isPending] = useWebDetail()
+    const status = 'accepted'
+
+    const [classes, refetch, classPending] = useClasses(currentPage, pageSize, search, status);
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setSearch(searchValue); // Set the search value when the form is submitted
+        setCurrentPage(1);
+    };
+
+    useEffect(() => {
+        refetch();
+    }, [search, currentPage, refetch]); // Refetch data when search or pagination changes
+
+    const totalPages = Math.ceil(webDetail.acceptedClassCount / 10);
+
+    if (classPending || isPending) {
         return <div className="text-center">Loading...</div>;
     }
 
     return (
         <div className="p-6">
             {/* Uncomment and adjust the search form if needed */}
-            {/* 
+            
             <form onSubmit={handleSearch} className="my-10 max-w-md mx-auto flex items-center gap-2">
                 <Input
                     type="text"
@@ -24,7 +45,7 @@ const AllClasses = () => {
                 />
                 <Button type="submit">Search</Button>
             </form>
-            */}
+           
 
             {/* No Classes Message */}
             {classes.length === 0 && (
@@ -78,7 +99,7 @@ const AllClasses = () => {
             </div>
 
             {/* Uncomment and adjust pagination if needed */}
-            {/* 
+            
             <div className="flex items-center gap-4 justify-center my-10">
                 <IconButton
                     disabled={currentPage === 1}
@@ -100,7 +121,7 @@ const AllClasses = () => {
                     <ArrowRightIcon className="h-6 w-6" />
                 </IconButton>
             </div>
-            */}
+           
         </div>
     );
 };

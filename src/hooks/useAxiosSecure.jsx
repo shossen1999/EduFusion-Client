@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../providers/AuthProvider";
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'https://edu-fusion-server.vercel.app'
 });
 
 const useAxiosSecure = () => {

@@ -12,7 +12,7 @@ const TeacherSection = () => {
                 <p>Interested in sharing your knowledge?Click the below button and fill out the form inside it to apply as a teacher on our platform and start inspiring students worldwide!</p>
                 <div>
                     <Link to={'/teachOnEduFusion'}>
-                        <Btn text={'Start Teaching Today'} />
+                        <Btn  text={'Start Teaching Today'} />
                     </Link>
                 </div>
             </div >

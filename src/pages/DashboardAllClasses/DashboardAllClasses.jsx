@@ -1,162 +1,148 @@
-
 import swal from "sweetalert";
-// import useClasses from "../../hooks/useClasses";
-// import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
-// import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { IconButton } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import useClasses from "../../Hooks/useClasses";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-// import useStat from "../../hooks/useStat";
-// import LoadingPage from "../../components/LoadingPage";
-const DashboardAllClasses = () =>{
-    const axiosSecure = useAxiosSecure()
-    // const [stat]= useStat()
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const pageSize = 10;
+import useWebDetail from "../../Hooks/useWebDetail";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 
+const DashboardAllClasses = () => {
+    const axiosSecure = useAxiosSecure();
+    const [webDetail] = useWebDetail();
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
     const [classes, refetch, classPending] = useClasses();
 
+    useEffect(() => {
+        refetch();
+    }, [currentPage, refetch]);
 
-    // useEffect(() => {
-    //     refetch();
-    // }, [currentPage, refetch]); // Refetch data when search or pagination changes
+    const totalPages = Math.ceil(webDetail.allClassCount / pageSize);
 
-    // const totalPages = Math.ceil(stat.allClassCount / 10);
+    const approve = { status: 'accepted' };
+    const reject = { status: 'rejected' };
 
-
-
-    const approve = {
-        status: 'accepted'
-    }
-    const reject = {
-        status: 'rejected'
-    }
     const handleApprove = async (id) => {
         swal({
-            title: "Are you want to approve the class?",
+            title: "Are you sure you want to approve the class?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
-        })
-            .then(async (willDelete) => {
-                if (willDelete) {
-                    const res = await axiosSecure.patch(`/class/${id}`, approve)
-                    // console.log(res.data)
-                    if (res.data.modifiedCount > 0) {
-                        swal("Class Approved!", {
-                            icon: "success",
-                        });
-                        refetch()
-                    }
+        }).then(async (willDelete) => {
+            if (willDelete) {
+                const res = await axiosSecure.patch(`/class/${id}`, approve);
+                if (res.data.modifiedCount > 0) {
+                    swal("Class Approved!", { icon: "success" });
+                    refetch();
                 }
-            });
-    }
-    const handleReject =async (id) => {
-        swal({
-            title: "Are you want to reject the class?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-            .then(async(willDelete) => {
-                if (willDelete) {
-                    const res = await axiosSecure.patch(`/class/${id}`, reject)
-                    // console.log(res.data)
-                    if (res.data.modifiedCount > 0) {
-                        swal("Class Rejected!", {
-                            icon: "success",
-                        });
-                        refetch()
-                    }
-                    // console.log(id)
-                    swal("Class Rejected!", {
-                        icon: "success",
-                    });
-                }
-            });
-    }
+            }
+        });
+    };
 
-    if(classPending){
-        return(
-            // <LoadingPage/>
-            <div>Loading</div>
-        )
+    const handleReject = async (id) => {
+        swal({
+            title: "Are you sure you want to reject the class?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(async (willDelete) => {
+            if (willDelete) {
+                const res = await axiosSecure.patch(`/class/${id}`, reject);
+                if (res.data.modifiedCount > 0) {
+                    swal("Class Rejected!", { icon: "success" });
+                    refetch();
+                }
+            }
+        });
+    };
+
+    if (classPending) {
+        return <div className="text-center py-10 text-sm">Loading...</div>;
     }
 
     return (
         <div className="overflow-x-auto p-4 md:p-10">
-            <table className="table">
-                {/* head */}
+            <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
                 <thead>
-                    <tr className="bg-gradient-to-r from-blue-500 to-blue-700 text-white">
-                        <th>
-                            #
-                        </th>
-                        <th>Image</th>
-                        <th>Title</th>
-                        <th>Email</th>
-                        <th>Short Description</th>
-                        <th>Action</th>
+                    <tr className="bg-gradient-to-r from-blue-500 to-blue-700 text-white text-xs md:text-sm">
+                        <th className="py-3 px-2">#</th>
+                        <th className="py-3 px-2">Image</th>
+                        <th className="py-3 px-2">Title</th>
+                        <th className="py-3 px-2">Email</th>
+                        <th className="py-3 px-2 hidden md:table-cell">Short Description</th>
+                        <th className="py-3 px-2">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {
-                        classes.map((aClass, idx) => <tr key={idx}>
-                            <th>
-                                {idx + 1}
-                            </th>
-                            <td>
-                                <div className="flex items-center gap-3">
-                                    <div className="avatar">
-                                        <div className="mask mask-squircle w-12 h-12">
-                                            <img src={aClass.image} alt="Avatar Tailwind CSS Component" />
-                                        </div>
+                <tbody className="divide-y divide-gray-200 text-xs md:text-sm">
+                    {classes.map((aClass, idx) => (
+                        <tr key={idx} className="text-center">
+                            <td className="py-4">{idx + 1}</td>
+                            <td className="py-4">
+                                <div className="flex justify-center items-center">
+                                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden">
+                                        <img src={aClass.image} alt="Class" className="object-cover w-full h-full" />
                                     </div>
-
                                 </div>
                             </td>
-                            <td>
-                                {aClass.title}
+                            <td className="py-4">{aClass.title}</td>
+                            <td className="py-4">{aClass.email}</td>
+                            <td className="py-4 hidden md:table-cell">
+                                {aClass.description.slice(0, 30)}...
                             </td>
-                            <td>{aClass.email}</td>
-                            <td>{aClass.description.slice(0, 30)}...</td>
-                            <th className="flex gap-2">
-                                <button onClick={() => handleApprove(aClass._id)} disabled={aClass.status !== 'pending'} className={` font-bold ${aClass.status !== 'pending' ? 'disabled-btn' : 'text-white bg-[#7b7b7b]'} px-4 py-2 text-nowrap rounded-full`}>Approve</button>
-                                <button onClick={() => handleReject(aClass._id)} disabled={aClass.status !== 'pending'} className={` font-bold ${aClass.status !== 'pending' ? 'disabled-btn' : 'text-white bg-[#7b7b7b]'} px-4 py-2 text-nowrap rounded-full`}>Reject</button>
-                                <div>
-                                    <Link to={`/dashboard/adminSeeProgress/${aClass._id}`}>
-                                        <button disabled={aClass.status == 'pending'} className={` font-bold ${aClass.status == 'pending' ? 'disabled-btn' : 'text-white bg-[#7b7b7b]'} px-4 py-2 text-nowrap rounded-full`}>See Progress</button>
-                                    </Link>
-                                </div>
-                            </th>
-                        </tr>)
-                    }
-
+                            <td className="py-4 flex flex-col md:flex-row justify-center gap-2">
+                                <button
+                                    onClick={() => handleApprove(aClass._id)}
+                                    disabled={aClass.status !== 'pending'}
+                                    className={`px-3 py-2 rounded-full font-bold text-xs md:text-sm ${aClass.status !== 'pending' ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-green-500 text-white hover:bg-green-600'}`}
+                                >
+                                    Approve
+                                </button>
+                                <button
+                                    onClick={() => handleReject(aClass._id)}
+                                    disabled={aClass.status !== 'pending'}
+                                    className={`px-3 py-2 rounded-full font-bold text-xs md:text-sm ${aClass.status !== 'pending' ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-red-500 text-white hover:bg-red-600'}`}
+                                >
+                                    Reject
+                                </button>
+                                <Link to={`/dashboard/adminSeeProgress/${aClass._id}`}>
+                                    <button
+                                        disabled={aClass.status === 'pending'}
+                                        className={`px-3 py-2 rounded-full font-bold text-xs md:text-sm ${aClass.status === 'pending' ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+                                    >
+                                        See Progress
+                                    </button>
+                                </Link>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
-            {/* <div className="flex items-center gap-4 justify-center my-10">
-                <IconButton
-                    disabled={currentPage === 1}
-                    onClick={() => {
-                        setCurrentPage(currentPage - 1);
-                    }}
-                >
-                    <ArrowLeftIcon className="h-6 w-6" />
-                </IconButton>
-                <p>
-                    Page {currentPage} of {totalPages}
+
+            <div className="flex flex-col items-center justify-center mt-8 space-y-4">
+                <p className="text-xs md:text-sm text-gray-600">
+                    Showing {currentPage * pageSize - pageSize + 1} to {Math.min(currentPage * pageSize, webDetail.allClassCount)} of {webDetail.allClassCount} classes
                 </p>
-                <IconButton
-                    disabled={currentPage === totalPages}
-                    onClick={() => {
-                        setCurrentPage(currentPage + 1);
-                    }}
-                >
-                    <ArrowRightIcon className="h-6 w-6" />
-                </IconButton>
-            </div> */}
+                <div className="flex items-center gap-4">
+                    <IconButton
+                        disabled={currentPage === 1}
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        className="text-blue-600 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center justify-center"
+                        size="lg"
+                    >
+                        <ArrowLeftIcon className="h-5 w-5" />
+                    </IconButton>
+                    <p className="text-xs md:text-sm">Page {currentPage} of {totalPages}</p>
+                    <IconButton
+                        disabled={currentPage === totalPages}
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        className="text-blue-600 hover:bg-blue-500 hover:text-white transition duration-300 flex items-center justify-center"
+                        size="lg"
+                    >
+                        <ArrowRightIcon className="h-5 w-5" />
+                    </IconButton>
+                </div>
+            </div>
         </div>
     );
 };

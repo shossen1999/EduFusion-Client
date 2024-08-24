@@ -9,7 +9,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 
 
 const Navbar = () => {
-  
+
     const { user, logOut } = useContext(AuthContext)
     const [showMenu, setShowMenu] = useState(false);
 
@@ -19,7 +19,7 @@ const Navbar = () => {
 
     const handleLogOut = () => {
         logOut()
-            .then(()=>{
+            .then(() => {
                 toast.success('Sign out successfully')
             })
             .catch()
@@ -58,39 +58,41 @@ const Navbar = () => {
                                 <div className="dropdown dropdown-bottom dropdown-end hover:cursor-pointer">
                                     <div tabIndex={0}>
                                         <div className="avatar">
-                                            <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                                <img src={user.photoURL} />
+                                            <div className="w-10 rounded-full border-2 border-gray-400 bg-gray-200">
+                                                <img src={user.photoURL} alt="User Avatar" className="object-cover w-full h-full rounded-full" />
                                             </div>
                                         </div>
                                     </div>
-                                    <div tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow  rounded-box w-52">
-                                        <div className="absolute w-full z-10 flex flex-col gap-2 overflow-auto rounded-md text-xl bg-[#002244] font-bold text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
+                                    <div tabIndex={0} className="dropdown-content z-[1] menu p-3 shadow-lg rounded-lg w-64 bg-cyan-900 text-white border border-gray-200">
+                                        <div className="flex flex-col gap-2">
                                             <div
                                                 role="menuitem"
-                                                className="flex w-full select-none items-center gap-2 rounded-md px-3 pt-[9px] pb-2 text-start leading-tight outline-none transition-all"
+                                                className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 transition-colors"
                                             >
-                                                {user.displayName}
+                                                <span className="font-semibold text-lg">{user.displayName}</span>
                                             </div>
                                             <Link className="w-full" to={'/dashboard/profile'}>
                                                 <button
                                                     role="menuitem"
-                                                    className="flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-3 pt-[9px] pb-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
+                                                    className="w-full text-left px-3 py-2 rounded-md hover:bg-blue-500 hover:text-white transition-colors"
                                                 >
                                                     Dashboard
                                                 </button>
                                             </Link>
-                                            <hr className="my-2 border-blue-gray-50" role="menuitem" />
+                                            <hr className="border-gray-300" role="menuitem" />
                                             <div
                                                 role="menuitem"
-                                                className="flex w-full select-none items-center gap-2 rounded-md px-3 pt-[9px] pb-2 text-start leading-tight outline-none transition-all "
+                                                className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-red-500 hover:text-white transition-colors"
                                             >
-                                                <button onClick={handleLogOut} className="px-4 py-2 bg-[#7b7b7b] text-[16px] rounded-full text-white font-bold text-nowrap">Log Out</button>
+                                                <button onClick={handleLogOut} className="w-full text-left text-red-600 font-bold">
+                                                    Log Out
+                                                </button>
                                             </div>
-
-
                                         </div>
                                     </div>
                                 </div>
+
+
                             </>
                             :
                             <>
