@@ -186,6 +186,7 @@ const categoryOptions = [
     { label: 'Microbiology', value: 'MicroBiology' },
     { label: 'Micro Economics', value: 'Micro Economics' },
     { label: 'EEE', value: 'EEE' },
+    { label: 'Genetical Engineering', value: 'Genetical Engineering' },
 
 
     
