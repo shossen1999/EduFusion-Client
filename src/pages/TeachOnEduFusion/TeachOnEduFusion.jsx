@@ -184,6 +184,10 @@ const categoryOptions = [
     { label: 'Game Development', value: 'Game Development' },
     { label: 'BioChemistry', value: 'BioChemistry' },
     { label: 'Microbiology', value: 'MicroBiology' },
+    { label: 'Micro Economics', value: 'Micro Economics' },
+    { label: 'EEE', value: 'EEE' },
+
+
     
 ];
 
