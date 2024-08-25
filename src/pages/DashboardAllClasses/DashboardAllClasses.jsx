@@ -58,7 +58,7 @@ const DashboardAllClasses = () => {
     };
 
     if (classPending) {
-        return <div className="text-center py-10 text-sm">Loading...</div>;
+        return <span className="loading loading-spinner loading-lg"></span>;
     }
 
     return (

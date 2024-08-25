@@ -29,7 +29,7 @@ const TeacherRequest = () => {
     });
 
     if (isFetching) {
-        return <div className="text-center py-10 text-sm">Loading...</div>;
+        return <span className="loading loading-spinner loading-lg"></span>;
     }
 
     const reject = { status: 'rejected' };

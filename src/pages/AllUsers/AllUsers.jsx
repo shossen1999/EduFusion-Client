@@ -99,7 +99,7 @@ const AllUsers = () => {
   
 
   if (userPending || isUserCountPending) {
-    return <div>Loading...</div>;
+    return <span className="loading loading-spinner loading-lg"></span>;
   }
 
   const handleMakeAdmin = async (email, name) => {

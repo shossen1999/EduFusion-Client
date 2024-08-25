@@ -29,7 +29,7 @@ const AllClasses = () => {
     const totalPages = Math.ceil(webDetail.acceptedClassCount / 10);
 
     if (classPending || isPending) {
-        return <div className="text-center">Loading...</div>;
+        return <span className="loading loading-spinner loading-lg"></span>;
     }
 
     return (

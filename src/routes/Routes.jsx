@@ -25,6 +25,7 @@ import UpdateClass from "../pages/UpdateClass/UpdateClass";
 import TeacherSeeDetails from "../pages/TeacherSeeDetails/TeacherSeeDetails";
 import StudentContinueDetails from "../pages/StudentContinueDetails/StudentContinueDetails";
 import AdminSeeProgress from "../pages/AdminSeeProgress/AdminSeeProgress";
+import AdminRoutes from './AdminRoutes';
 
 
 
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
        },
        {
         path:'/classDetails/:id',
-        element:<ClassDetails></ClassDetails>
+        element:<PrivateRoutes><ClassDetails></ClassDetails></PrivateRoutes>
        },
        {
         path:'/payment/:id',
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
     
       {
         path: "/teachOnEduFusion",
-        element: <TeachOnEduFusion></TeachOnEduFusion>
+        element:<PrivateRoutes> <TeachOnEduFusion></TeachOnEduFusion></PrivateRoutes>
       },
      
       {
@@ -73,54 +74,55 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'teacherRequest',
-        element: <TeacherRequest></TeacherRequest>
+        element: <PrivateRoutes><AdminRoutes><TeacherRequest></TeacherRequest></AdminRoutes></PrivateRoutes>
+    },
+    {
+      path: 'dashAllClass',
+      element:<PrivateRoutes><AdminRoutes><DashboardAllClasses></DashboardAllClasses></AdminRoutes></PrivateRoutes>
     },
      
        {
         path: "allUsers",
-        element:<AllUsers></AllUsers>
+        element:<PrivateRoutes><AdminRoutes><AllUsers></AllUsers></AdminRoutes></PrivateRoutes>
       },
-      {
-        path: 'dashAllClass',
-        element:<DashboardAllClasses></DashboardAllClasses>
-      },
+      
      
       
 
       {
         path:'addClass',
-        element:<AddClass></AddClass>
+        element:<PrivateRoutes><AddClass></AddClass></PrivateRoutes>
       },
       {
         path:'myClass',
-        element:<MyClass></MyClass>
+        element:<PrivateRoutes><MyClass></MyClass></PrivateRoutes>
       },
       {
           path:'updateClass/:id',
-          element:<UpdateClass></UpdateClass>
+          element:<PrivateRoutes><UpdateClass></UpdateClass></PrivateRoutes>
       },
       {
         path:'teacherSeeDetails/:id',
-        element:<TeacherSeeDetails></TeacherSeeDetails>
+        element:<PrivateRoutes><TeacherSeeDetails></TeacherSeeDetails></PrivateRoutes>
 
       },
      
       {
         path:"profile",
-        element:<Profile></Profile>
+        element:<PrivateRoutes><Profile></Profile></PrivateRoutes>
       },
       {
           path: 'myEnrolledClass',
-          element: <MyEnrollClass></MyEnrollClass>
+          element: <PrivateRoutes><MyEnrollClass></MyEnrollClass></PrivateRoutes>
       },
       {
         path:'studentContinueDetails/:id',
-        element:<StudentContinueDetails></StudentContinueDetails>
+        element:<PrivateRoutes><StudentContinueDetails></StudentContinueDetails></PrivateRoutes>
 
       },
       {
         path:'adminSeeProgress/:id',
-        element:<AdminSeeProgress></AdminSeeProgress>
+        element:<PrivateRoutes><AdminSeeProgress></AdminSeeProgress></PrivateRoutes>
 
       },
 
