@@ -1,8 +1,16 @@
 # Website Name
 EduFusion
 
+#  Concepts of EduFusion
+EduFusion is an educational platform where users start as students. They can buy and enroll in classes. If a student wants to become a teacher, they submit a request, which the admin reviews. If approved, the student becomes a teacher. Teachers can then upload classes, create assignments for their students, and track who enrolls and submits work. Admins approve classes before they appear on the homepage and manage user activity, including teacher requests and site usage.
+
+# Admin Credentials
+* Username: sharif@gmail.com
+* Password:1234aA
+
+
 # Live Link
--[Live Link of EduFusion](https://edu-fusion-ab009.web.app/)
+[Live Link of EduFusion](https://edu-fusion-ab009.web.app/)
 
 # Features and Characteristics
 
