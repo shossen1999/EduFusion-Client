@@ -1,8 +1,8 @@
 import { Link, NavLink } from "react-router-dom";
 import './navbar.css'
-// import Btn from "../../components/Btn";
+
 import { useContext, useState } from "react";
-// import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
+
 import logo from '../../assets/All/eduFusionLogo.png'
 import { toast } from "react-toastify";
 import { AuthContext } from "../../providers/AuthProvider";

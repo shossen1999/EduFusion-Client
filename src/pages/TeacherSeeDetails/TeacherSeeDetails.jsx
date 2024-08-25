@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { FaCalendarAlt, FaCheck, FaPlus, FaTimes, FaUserGraduate } from "react-icons/fa";
+import { FaCalendarAlt, FaPlus,  FaUserGraduate } from "react-icons/fa";
 import { Button, Dialog, DialogBody, DialogHeader } from "@material-tailwind/react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";

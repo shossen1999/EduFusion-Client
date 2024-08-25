@@ -53,15 +53,7 @@ const MyClass = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 p-6">
             {classes.map((aClass, idx) => (
                 <div key={idx} className="card bg-base-100 shadow-xl border border-gray-200 overflow-hidden max-w-[380px] mx-auto">
-                    {/* <div className="flex items-center gap-2 p-4">
-                        <div>
-                            <img src={aClass.image} alt={aClass.title} className="w-[40px] h-[40px] rounded-full" />
-                        </div>
-                        <div>
-                            <h3 className="font-semibold text-lg">{aClass.title}</h3>
-                            <p className="text-gray-600">{aClass.name}</p>
-                        </div>
-                    </div> */}
+                   
                     <figure className="px-10 pt-10">
                         <img src={aClass.image} alt={aClass.title} className="rounded-2xl w-full h-[180px] object-cover" />
                     </figure>

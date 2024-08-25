@@ -17,7 +17,7 @@ const AdminSeeProgress = () => {
 
     if (isPending) {
         return (
-            <div>Loading.........</div>
+            <span className="loading loading-spinner loading-lg"></span>
         );
     }
 
@@ -35,28 +35,28 @@ const AdminSeeProgress = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {feedback.map((item) => (
                     <div key={item._id} className="bg-[#D3E5E2] shadow-lg h-auto text-black rounded-xl flex flex-col justify-between p-5">
-                        {/* Quotation Mark */}
+                       
                         <div className="flex justify-end mb-4">
                             <img src="https://i.ibb.co/N6pc4Wh/Quotation-Mark-PNG-Picture.png" alt="quote" className="w-[40px] h-[30px]" />
                         </div>
 
-                        {/* Class Name */}
+                       
                         <h2 className="text-xl font-bold underline underline-offset-4 text-center mb-2">{item.className}</h2>
 
-                        {/* Description */}
+                       
                         <p className="text-[14px] text-center mb-4">{item.description}</p>
 
-                        {/* Class Image */}
+                       
                         <div className="w-[120px] h-[120px] rounded-full mx-auto mb-4 overflow-hidden">
                             <img src={item.classImage} alt="Class" className="object-cover w-full h-full" />
                         </div>
 
-                        {/* Rating */}
+                        
                         <div className="flex justify-center mb-4">
                             <Rating value={parseInt(item.rating)} readonly />
                         </div>
 
-                        {/* User Info */}
+                       
                         <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-full border border-black overflow-hidden">
                                 <img src={item.userImage} alt="User" className="w-full h-full object-cover" />

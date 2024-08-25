@@ -1,14 +1,13 @@
 import { useContext, useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-// import useAxiosSecure from "../../hooks/useAxiosSecure";
-// import LoadingPage from "../../components/LoadingPage";
-import { FaCheck, FaTimes } from "react-icons/fa"; // Import React icons
+
+import { FaCheck, FaTimes } from "react-icons/fa"; 
 import swal from "sweetalert";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../providers/AuthProvider";
 import Rating from 'react-rating-stars-component';
-// import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
+
 
 const StudentContinueDetails = () => {
     const [description, setDescription] = useState('');
@@ -118,9 +117,7 @@ const StudentContinueDetails = () => {
                             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div className="sm:flex sm:items-start">
                                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                        {/* <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                            Create Teaching Evaluation Report
-                                        </h3> */}
+                                       
                                         <div className="mt-2">
                                             <div>
                                                 <img className="rounded-[16px]" src={aClass[0].image} alt="" />

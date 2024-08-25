@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
-// import useAuth from "../../hooks/useAuth";
+
 import { FcGoogle } from "react-icons/fc";
-// import useAxiosPublic from './../../hooks/useAxiosPublic';
+
 import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
@@ -28,8 +28,7 @@ const SocialLogin = () => {
 
 
             })
-            // if (result.user) {
-            // }
+           
         });
     }
 

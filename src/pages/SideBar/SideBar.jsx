@@ -10,13 +10,12 @@ import { useQuery } from "@tanstack/react-query";
 import useAdmin from "../../Hooks/useAdmin";
 import useTeacher from "../../Hooks/useTeacher";
 import { FaUser } from "react-icons/fa";
-// import useAdmin from "../../hooks/useAdmin";
-// import useTeacher from "../../hooks/useTeacher";
+
 import { CgExtensionAdd } from "react-icons/cg";
 import { LiaBookSolid } from "react-icons/lia";
 import { GiBookAura } from "react-icons/gi";
 import { GiBookCover } from "react-icons/gi";
-// import { FaGripVertical } from "react-icons/fa6";
+
 
 const SideBar = () => {
     const [isAdmin] = useAdmin()

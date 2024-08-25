@@ -14,7 +14,7 @@ const ClassDetails = () => {
   });
 
   if (isPending) {
-    return <div className="text-center py-8">Loading...</div>;
+    return <span className="loading loading-spinner loading-lg"></span>;
   }
 
   const aClass = data.length > 0 ? data[0] : {};

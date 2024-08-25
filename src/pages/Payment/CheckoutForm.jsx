@@ -4,8 +4,10 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = ({ id }) => {
+    const navigate = useNavigate()
     const [error, setError] = useState('')
     const stripe = useStripe()
     const elements = useElements()
@@ -13,6 +15,7 @@ const CheckoutForm = ({ id }) => {
     const [clientSecret, setClientSecret] = useState('')
     const { user } = useAuth();
     const [transactionId, setTransactionId] = useState('')
+
 
 
     const { data = [], isPending } = useQuery({
@@ -24,7 +27,7 @@ const CheckoutForm = ({ id }) => {
     })
 
     if (isPending) {
-        <div>Loading....</div>
+        <span className="loading loading-spinner loading-lg"></span>
     }
 
 
@@ -33,7 +36,7 @@ const CheckoutForm = ({ id }) => {
 
 
     const totalPrice = parseFloat(aClass?.price);
-    // console.log(totalPrice)
+    
     useEffect(() => {
         if (totalPrice > 0) {
             axiosSecure.post('/create-payment-intent', { price: totalPrice })
@@ -45,18 +48,18 @@ const CheckoutForm = ({ id }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        // setLoading(true)
+        
 
         if (!stripe || !elements) {
-            // setLoading(false)
+          
             return;
         }
 
-        // const card = elements.getElement(CardElement)
+  
         const card = elements.getElement(CardElement)
 
         if (card === null) {
-            // setLoading(false)
+           
             return;
         }
 
@@ -65,13 +68,13 @@ const CheckoutForm = ({ id }) => {
             card
         })
         if (error) {
-            // setLoading(false)
+            
             console.log('payment error', error)
             setError(error.message)
         }
         else {
             console.log('payment-method', paymentMethod)
-            // setLoading(false)
+   
             setError('')
         }
 
@@ -87,7 +90,7 @@ const CheckoutForm = ({ id }) => {
             }
         })
         if (confirmError) {
-            // setLoading(false)
+           
             console.log('confirm-error', confirmError)
         }
         else {
@@ -116,9 +119,9 @@ const CheckoutForm = ({ id }) => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    // setLoading(false)
+                   
 
-                    // navigate('/dashboard/myEnrolledClass')
+                     navigate('/dashboard/myEnrolledClass')
                 }
 
 

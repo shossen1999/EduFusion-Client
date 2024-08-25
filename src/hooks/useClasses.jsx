@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "./useAxiosSecure";
-// import useAxiosSecure from "./useAxiosSecure";
+
 
 const useClasses = ( page=1, size=10, search='', status='') => {
     const axiosSecure = useAxiosSecure();

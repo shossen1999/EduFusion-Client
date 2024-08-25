@@ -15,7 +15,7 @@ const HighlightClass = () => {
     const popularClasses = [...classes].sort((a, b) => b.total_enrollment - a.total_enrollment);
 
     if (classPending) {
-        return <div>Loading...</div>;
+        return <span className="loading loading-spinner loading-lg"></span>;
     }
 
     return (
@@ -54,16 +54,12 @@ const HighlightClass = () => {
                                         </button>
                                     </Link>
                                 </div>
-                            {/* <p className="text-white">Description: ${singleClass.description}</p> */}
+                         
                             </div>
                           
                         </div>
                         </div>
-                        {/* <img className="w-[400px] h-[450px] object-cover object-center" src={singleClass.image} alt={singleClass.title} />
-                        <div className="absolute inset-0 bg-black bg-opacity-40 space-y-4 p-6">
-                            <h1 className="text-xl font-bold text-white underline underline-offset-8">{singleClass.title}</h1>
-                            <p className="text-white">Enrolled: {singleClass.total_enrollment}</p>
-                        </div> */}
+                      
                     </SwiperSlide>
                 ))}
             </Swiper>

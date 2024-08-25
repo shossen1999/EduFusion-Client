@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-// import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
-// import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { FaUserCircle, FaEnvelope, FaPhone, FaQuestionCircle } from 'react-icons/fa';
+
+import { FaUserCircle, FaEnvelope, FaPhone } from 'react-icons/fa';
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../providers/AuthProvider";
 import { FaUserTie } from "react-icons/fa";

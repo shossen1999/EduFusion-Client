@@ -1,7 +1,7 @@
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-// Import Swiper styles
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -35,28 +35,28 @@ export default function Feedback() {
                     feedback.map((text, idx) => (
                         <SwiperSlide key={idx}>
                             <div className='bg-[#D3E5E2] shadow-lg mb-12 h-[400px] text-black rounded-xl flex flex-col justify-between p-5'>
-                                {/* Quotation Mark */}
+                                
                                 <div className="flex justify-end mb-4">
                                     <img src="https://i.ibb.co/N6pc4Wh/Quotation-Mark-PNG-Picture.png" alt="quote" className="w-[40px] h-[30px]" />
                                 </div>
 
-                                {/* Class Name */}
+                             
                                 <h2 className='text-xl font-bold underline underline-offset-4 text-center'>{text.className}</h2>
 
-                                {/* Description */}
+                             
                                 <p className="text-[14px] text-center mt-3 mb-4">{text.description}</p>
 
-                                {/* Class Image */}
+                            
                                 <div className="w-[120px] h-[120px] rounded-full mx-auto mb-4 overflow-hidden">
                                     <img src={text.classImage} alt="Class" className="object-cover w-full h-full" />
                                 </div>
 
-                                {/* Rating */}
+                      
                                 <div className="flex justify-center mb-4">
                                     <Rating value={parseInt(text.rating)} readonly />
                                 </div>
 
-                                {/* User Info */}
+                                
                                 <div className="flex items-center gap-3">
                                     <div className="w-12 h-12 rounded-full border border-black overflow-hidden">
                                         <img src={text.userImage} alt="User" className="w-full h-full object-cover" />

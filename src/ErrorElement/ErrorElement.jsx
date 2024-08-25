@@ -12,7 +12,7 @@ const ErrorElement = () => {
                 <AiOutlineWarning className="inline-block text-6xl" />
                 Oops! 404 Not Found
             </h2>
-            {/* <img src={NotFoundImage} alt="404 Not Found" className="w-64 mb-6" /> */}
+           
             <p className="text-lg text-gray-600 mb-6">
                 The page you are looking for does not exist.
             </p>

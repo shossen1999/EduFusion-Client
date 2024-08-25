@@ -4,7 +4,7 @@ import codeacademy from "../../assets/partners/codeacademyw.png"
 import udemy from "../../assets/partners/udemy-logo (2).png"
 import khanacademy from "../../assets/partners/images-removebg-preview (1).png"
 import coursera from "../../assets/partners/khan-academy.png"
-// import square from "../../assets/partners/square.jpg"
+
 const OurPartners = () => {
     return (
         <div className="app">

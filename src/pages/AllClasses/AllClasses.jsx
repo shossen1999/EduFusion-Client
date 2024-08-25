@@ -18,13 +18,13 @@ const AllClasses = () => {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        setSearch(searchValue); // Set the search value when the form is submitted
+        setSearch(searchValue); 
         setCurrentPage(1);
     };
 
     useEffect(() => {
         refetch();
-    }, [search, currentPage, refetch]); // Refetch data when search or pagination changes
+    }, [search, currentPage, refetch]); 
 
     const totalPages = Math.ceil(webDetail.acceptedClassCount / 10);
 
@@ -81,11 +81,7 @@ const AllClasses = () => {
                             <p className="text-[14px] mb-2">
                                 <span className="font-bold">Enrolled Students:</span> {aClass.total_enrollment}
                             </p>
-                            {/* <p className="text-[14px] mb-2">
-                                <span className="font-bold">Description:</span> {aClass.description.length > 60
-                                    ? `${aClass.description}...`
-                                    : aClass.description}
-                            </p> */}
+                          
                             <div className="flex-1 h-full flex items-center justify-center">
                                     <Link className="w-full" to={`/classDetails/${aClass._id}`}>
                                         <button className="px-4 py-2 rounded-full bg-[#7b7b7b] btn-block text-white font-bold hover:bg-cyan-700">

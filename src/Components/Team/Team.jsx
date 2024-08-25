@@ -5,7 +5,6 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// Importing specific modules from 'swiper/modules'
 import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper/modules';
 
 import slide_image_1 from '../../assets/team/kabila.jpg';
@@ -23,10 +22,10 @@ const Team = () => {
             <Swiper
                 effect="coverflow"
                 grabCursor={true}
-                centeredSlides={false}  // Disable centering
+                centeredSlides={false} 
                 loop={true}
-                slidesPerView={3}  // Show 3 slides side by side
-                spaceBetween={30}  // Optional: Add space between slides
+                slidesPerView={3}  
+                spaceBetween={30}  
                 coverflowEffect={{
                     rotate: 0,
                     stretch: 0,

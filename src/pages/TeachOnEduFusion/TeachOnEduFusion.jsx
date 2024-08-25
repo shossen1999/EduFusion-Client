@@ -178,7 +178,13 @@ const categoryOptions = [
     { label: 'Graphic Design', value: 'graphic design' },
     { label: 'Data Analysis', value: 'data analysis' },
     { label: 'Project Management', value: 'project management' },
-    { label: 'Ethical Hacking', value: 'Ethical Hacking' }
+    { label: 'Ethical Hacking', value: 'Ethical Hacking' },
+    { label: 'BlockChain', value: 'BlockChain' },
+    { label: 'App Development', value: 'App Development' },
+    { label: 'Game Development', value: 'Game Development' },
+    { label: 'BioChemistry', value: 'BioChemistry' },
+    { label: 'Microbiology', value: 'MicroBiology' },
+    
 ];
 
 export default TeachOnEduFusion;

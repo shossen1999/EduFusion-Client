@@ -12,11 +12,11 @@ const DashboardAllClasses = () => {
     const [webDetail] = useWebDetail();
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 10;
-    const [classes, refetch, classPending] = useClasses();
+    const [classes, refetch, classPending] = useClasses(currentPage, pageSize);
 
     useEffect(() => {
-        refetch();
-    }, [currentPage, refetch]);
+        refetch(); 
+    }, [currentPage, pageSize, refetch]);
 
     const totalPages = Math.ceil(webDetail.allClassCount / pageSize);
 
@@ -76,8 +76,8 @@ const DashboardAllClasses = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-200 text-xs md:text-sm">
                     {classes.map((aClass, idx) => (
-                        <tr key={idx} className="text-center">
-                            <td className="py-4">{idx + 1}</td>
+                        <tr key={aClass._id} className="text-center">
+                            <td className="py-4">{(currentPage - 1) * pageSize + idx + 1}</td>
                             <td className="py-4">
                                 <div className="flex justify-center items-center">
                                     <div className="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden">

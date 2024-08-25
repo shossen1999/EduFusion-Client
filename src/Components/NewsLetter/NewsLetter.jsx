@@ -21,11 +21,11 @@ const NewsLetter = () => {
     };
 
     useEffect(() => {
-      // Initialize AOS when the component mounts
+  
       AOS.init({
-        duration: 800, // Animation duration
-        easing: 'ease-in-out', // Animation easing function
-        once: false // Animation occurs only once
+        duration: 800,
+        easing: 'ease-in-out', 
+        once: false 
       });
     }, []);
 

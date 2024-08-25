@@ -41,7 +41,7 @@ const UpdateClass = () => {
     });
 
     if (isPending) {
-        return <div>Loading.......</div>;
+        return <span className="loading loading-spinner loading-lg"></span>;
     }
 
     const onSubmit = (data) => {

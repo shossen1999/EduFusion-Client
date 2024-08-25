@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Btn from "../Btn";
-// import Btn from "../../../components/Btn";
+
 import instructor from "../../assets/teacher/instructor.jpg"
 
 const TeacherSection = () => {
