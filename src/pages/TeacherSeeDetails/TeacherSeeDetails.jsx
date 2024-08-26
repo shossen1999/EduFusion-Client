@@ -7,6 +7,7 @@ import { useState } from "react";
 import { MdAssignment } from "react-icons/md";
 import swal from "sweetalert";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { Helmet } from "react-helmet";
 
 const TeacherSeeDetails = () => {
     const { id } = useParams();
@@ -69,6 +70,9 @@ const TeacherSeeDetails = () => {
 
     return (
         <div className="max-w-7xl mx-auto p-6">
+             <Helmet>
+                    <title>Teacher See Details</title>
+                </Helmet>
             <h1 className="text-4xl font-bold text-center text-white mb-8">{aClass[0]?.title}</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">

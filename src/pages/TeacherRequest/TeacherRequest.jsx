@@ -5,6 +5,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useWebDetail from "../../Hooks/useWebDetail";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { IconButton } from "@material-tailwind/react";
+import { Helmet } from "react-helmet";
 
 const TeacherRequest = () => {
     const axiosSecure = useAxiosSecure();
@@ -54,6 +55,9 @@ const TeacherRequest = () => {
 
     return (
         <div className="p-4 md:p-8">
+             <Helmet>
+                    <title>Teacher Request Page</title>
+                </Helmet>
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md divide-y divide-gray-300">
                     <thead className="bg-gradient-to-r from-blue-500 to-blue-700 text-white text-xs md:text-sm">

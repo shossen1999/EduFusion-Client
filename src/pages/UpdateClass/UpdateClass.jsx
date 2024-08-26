@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import { useNavigate, useParams } from "react-router-dom";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../providers/AuthProvider";
+import { Helmet } from "react-helmet";
 
 const UpdateClass = () => {
     const { user } = useContext(AuthContext);
@@ -55,7 +56,11 @@ const UpdateClass = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <>
+        <Helmet>
+            <title>Update Class</title>
+        </Helmet>
+         <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
             <div className="bg-gradient-to-r from-blue-600 to-indigo-500 h-32 flex items-center justify-center">
                 <h3 className="text-3xl text-white">Update Class</h3>
             </div>
@@ -132,6 +137,8 @@ const UpdateClass = () => {
                 </button>
             </div>
         </form>
+        </>
+       
     );
 };
 

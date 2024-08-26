@@ -25,6 +25,9 @@ const MyEnrollClass = () => {
     const ClassCard = ({ id, title, name, image }) => {
         return (
             <div className="max-w-sm rounded-lg overflow-hidden mx-auto shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out bg-white">
+                <Helmet>
+                    <title>Student |  MyEnrollClass</title>
+                </Helmet>
              
                 <div className="relative">
                     <img className="w-full h-[220px] object-cover p-4 object-center rounded-t-lg" src={image} alt={title} />

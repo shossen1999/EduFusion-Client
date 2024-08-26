@@ -75,6 +75,7 @@ const TeachOnEduFusion = () => {
 
     return (
         <div className="flex justify-center items-center min-h-screen p-6"
+        
              style={{ backgroundImage: `url(https://thumbs.dreamstime.com/b/modern-abstract-motion-banner-dark-background-colourful-light-76877365.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 p-10 rounded-lg shadow-xl max-w-lg w-full">
                 {requestArray.length > 0 && requestArray[0].status === 'accepted' ? (

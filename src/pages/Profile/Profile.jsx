@@ -4,6 +4,7 @@ import { FaUserCircle, FaEnvelope, FaPhone } from 'react-icons/fa';
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../providers/AuthProvider";
 import { FaUserTie } from "react-icons/fa";
+import { Helmet } from "react-helmet";
 
 const Profile = () => {
     const { user } = useContext(AuthContext);
@@ -20,6 +21,9 @@ const Profile = () => {
 
     return (
         <div className="container mx-auto">
+             <Helmet>
+                    <title>Profile</title>
+                </Helmet>
             <div className="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                 <div className="px-6 py-4">
                     <h1 className="text-xl font-medium text-cyan-500 text-center">

@@ -7,6 +7,7 @@ import swal from "sweetalert";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../providers/AuthProvider";
 import Rating from 'react-rating-stars-component';
+import { Helmet } from "react-helmet";
 
 
 const StudentContinueDetails = () => {
@@ -98,6 +99,9 @@ const StudentContinueDetails = () => {
 
     return (
         <div>
+             <Helmet>
+                    <title>StudentContinueDetails</title>
+                </Helmet>
             {/*   */}
             <button onClick={openModal} className="bg-[#7b7b7b] my-6 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 Evaluate Class
