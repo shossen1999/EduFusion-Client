@@ -175,6 +175,7 @@ const categoryOptions = [
     { label: 'Web Development', value: 'web development' },
     { label: 'Artificial Intelligence', value: 'artificial intelligence' },
     { label: 'Robotics Engineering', value: 'robotics engineering' },
+    { label: 'Machine Learning', value: 'Machine Learning' },
     { label: 'Digital Marketing', value: 'digital marketing' },
     { label: 'Graphic Design', value: 'graphic design' },
     { label: 'Data Analysis', value: 'data analysis' },

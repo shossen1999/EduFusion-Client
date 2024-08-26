@@ -1,4 +1,5 @@
-import {Typography,Input, Button,
+import {
+    Typography, Input, Button,
 } from "@material-tailwind/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
@@ -82,13 +83,24 @@ const Login = () => {
                     </div>
                     <div className="relative">
                         <label className="block text-sm font-medium text-gray-700">Password</label>
-                        <Input {...register("password", { required: true })} name="password" type={show ? "text" : "password"} size="lg" className="mt-1 block w-full" />
-                        {show ?
-                            <FaRegEyeSlash onClick={() => setShow(false)} className="absolute inset-y-0 right-3 flex items-center text-xl cursor-pointer" />
-                            :
-                            <FaRegEye onClick={() => setShow(true)} className="absolute inset-y-0 right-3 flex items-center text-xl cursor-pointer" />
-                        }
+                        <div className="relative mt-1">
+                            <Input
+                                {...register("password", { required: true })}
+                                name="password"
+                                type={show ? "text" : "password"}
+                                size="lg"
+                                className="block w-full pr-10" // Add padding to the right for the icon
+                            />
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
+                                {show ? (
+                                    <FaRegEyeSlash onClick={() => setShow(false)} className="text-xl text-gray-500" />
+                                ) : (
+                                    <FaRegEye onClick={() => setShow(true)} className="text-xl text-gray-500" />
+                                )}
+                            </div>
+                        </div>
                     </div>
+
                     {error && <p className="text-red-500 text-sm flex items-center gap-1"><MdErrorOutline /> {error}</p>}
                     <Button
                         type="submit"
