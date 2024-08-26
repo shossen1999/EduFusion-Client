@@ -65,7 +65,7 @@ const TeacherSeeDetails = () => {
     const today = new Date().toISOString().split('T')[0];
 
     if (isLoading || statPending || dayPending) {
-        return <div>Loading....</div>;
+        return <span className="loading loading-spinner loading-lg"></span>;
     }
 
     return (
