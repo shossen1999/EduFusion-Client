@@ -4,6 +4,7 @@ import { Input, Button, IconButton } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import useClasses from "../../Hooks/useClasses";
 import useWebDetail from "../../Hooks/useWebDetail";
+import { Helmet } from "react-helmet";
 
 const AllClasses = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,13 +19,13 @@ const AllClasses = () => {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        setSearch(searchValue); 
+        setSearch(searchValue);
         setCurrentPage(1);
     };
 
     useEffect(() => {
         refetch();
-    }, [search, currentPage, refetch]); 
+    }, [search, currentPage, refetch]);
 
     const totalPages = Math.ceil(webDetail.acceptedClassCount / 10);
 
@@ -35,17 +36,23 @@ const AllClasses = () => {
     return (
         <div className="p-6">
             {/* Uncomment and adjust the search form if needed */}
-            
+            <Helmet>
+                <title>Home | All Classes</title>
+            </Helmet>
+
             <form onSubmit={handleSearch} className="my-10 max-w-md mx-auto flex items-center gap-2">
                 <Input
                     type="text"
-                    label="Search by class name..."
+                    placeholder="Search by class name..."
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
                 />
-                <Button type="submit">Search</Button>
+                <Button className="text-gray-800 dark:text-gray-200 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors" type="submit">
+                    Search
+                </Button>
+
             </form>
-           
+
 
             {/* No Classes Message */}
             {classes.length === 0 && (
@@ -81,43 +88,44 @@ const AllClasses = () => {
                             <p className="text-[14px] mb-2">
                                 <span className="font-bold">Enrolled Students:</span> {aClass.total_enrollment}
                             </p>
-                          
+
                             <div className="flex-1 h-full flex items-center justify-center">
-                                    <Link className="w-full" to={`/classDetails/${aClass._id}`}>
-                                        <button className="px-4 py-2 rounded-full bg-[#7b7b7b] btn-block text-white font-bold hover:bg-cyan-700">
-                                            Enroll
-                                        </button>
-                                    </Link>
-                                </div>
+                                <Link className="w-full" to={`/classDetails/${aClass._id}`}>
+                                    <button className="px-4 py-2 rounded-full bg-[#7b7b7b] btn-block text-white font-bold hover:bg-cyan-700">
+                                        Enroll
+                                    </button>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 ))}
             </div>
 
             {/* Uncomment and adjust pagination if needed */}
-            
-            <div className="flex items-center gap-4 justify-center my-10">
+
+            <div className="flex justify-center items-center my-10">
                 <IconButton
                     disabled={currentPage === 1}
-                    onClick={() => {
-                        setCurrentPage(currentPage - 1);
-                    }}
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                    className="text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 disabled:text-gray-400 dark:disabled:text-gray-600"
                 >
                     <ArrowLeftIcon className="h-6 w-6" />
                 </IconButton>
-                <p>
+
+                <p className="text-gray-800 dark:text-gray-200 mx-6">
                     Page {currentPage} of {totalPages}
                 </p>
+
                 <IconButton
                     disabled={currentPage === totalPages}
-                    onClick={() => {
-                        setCurrentPage(currentPage + 1);
-                    }}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                    className="text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 disabled:text-gray-400 dark:disabled:text-gray-600"
                 >
                     <ArrowRightIcon className="h-6 w-6" />
                 </IconButton>
             </div>
-           
+
+
         </div>
     );
 };

@@ -1,11 +1,4 @@
-import {
-    CardHeader,
-    CardBody,
-    CardFooter,
-    Typography,
-    Input,
-    Checkbox,
-    Button,
+import {Typography,Input, Button,
 } from "@material-tailwind/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
@@ -16,6 +9,7 @@ import { MdErrorOutline } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { AuthContext } from "../../providers/AuthProvider";
+import { Helmet } from "react-helmet";
 
 const Login = () => {
     const [show, setShow] = useState(false);
@@ -76,6 +70,9 @@ const Login = () => {
         <div
             className="flex min-h-screen items-center justify-center bg-gradient-to-r from-gray-800 via-gray-900 to-black"
         >
+            <Helmet>
+                <title>Home |Login</title>
+            </Helmet>
             <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
                 <h1 className="text-3xl font-bold text-center mb-6">Sign In</h1>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import Feedback from "../../Components/Feedback/Feedback";
 import HighlightClass from "../../Components/HighlightClass/HighlightClass";
 
@@ -15,6 +16,9 @@ import WebDetails from "../../Components/WebDetails/WebDetails";
 const Home = () => {
     return (
         <div>
+            <Helmet>
+                <title>Home</title>
+            </Helmet>
             <SwipperSlider></SwipperSlider>
          
             <HighlightClass></HighlightClass>

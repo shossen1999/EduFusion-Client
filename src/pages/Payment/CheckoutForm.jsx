@@ -1,23 +1,25 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useEffect, useState } from "react";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../Hooks/useAuth";
-import Swal from "sweetalert2";
+import { useContext, useEffect, useState } from "react";
+import Swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
+// import useAxiosSecure from "../../hooks/useAxiosSecure";
+// import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { AuthContext } from "../../providers/AuthProvider";
+// import LoadingPage from "../../components/LoadingPage";
 
 const CheckoutForm = ({ id }) => {
     const navigate = useNavigate()
+    const [clientSecret, setClientSecret] = useState('')
     const [error, setError] = useState('')
     const stripe = useStripe()
     const elements = useElements()
-    const axiosSecure = useAxiosSecure()
-    const [clientSecret, setClientSecret] = useState('')
-    const { user } = useAuth();
     const [transactionId, setTransactionId] = useState('')
+    const { user } = useContext(AuthContext)
+    const [loading, setLoading] = useState(false)
 
-
-
+    const axiosSecure = useAxiosSecure()
     const { data = [], isPending } = useQuery({
         queryKey: ['classDetails', { id }],
         queryFn: async () => {
@@ -36,7 +38,7 @@ const CheckoutForm = ({ id }) => {
 
 
     const totalPrice = parseFloat(aClass?.price);
-    
+    // console.log(totalPrice)
     useEffect(() => {
         if (totalPrice > 0) {
             axiosSecure.post('/create-payment-intent', { price: totalPrice })
@@ -48,18 +50,16 @@ const CheckoutForm = ({ id }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        
-
+        setLoading(true)
         if (!stripe || !elements) {
-          
+            setLoading(false)
             return;
         }
 
-  
         const card = elements.getElement(CardElement)
 
         if (card === null) {
-           
+            setLoading(false)
             return;
         }
 
@@ -68,18 +68,16 @@ const CheckoutForm = ({ id }) => {
             card
         })
         if (error) {
-            
-            console.log('payment error', error)
+            setLoading(false)
+            // console.log('payment error', error)
             setError(error.message)
         }
         else {
-            console.log('payment-method', paymentMethod)
-   
+            // console.log('payment-method', paymentMethod)
+            setLoading(false)
             setError('')
         }
 
-
-        // confirm payment
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: card,
@@ -90,16 +88,14 @@ const CheckoutForm = ({ id }) => {
             }
         })
         if (confirmError) {
-           
-            console.log('confirm-error', confirmError)
+            setLoading(false)
+            // console.log('confirm-error', confirmError)
         }
         else {
-            console.log('payment intent', paymentIntent)
+            // console.log('payment intent', paymentIntent)
             if (paymentIntent.status === 'succeeded') {
-                console.log('transactionId', paymentIntent.id)
+                // console.log('transactionId', paymentIntent.id)
                 setTransactionId(paymentIntent.id)
-
-                // now save the payment in the database
 
                 const payment = {
                     email: user?.email,
@@ -110,7 +106,7 @@ const CheckoutForm = ({ id }) => {
                 }
 
                 const res = await axiosSecure.post('/payment', payment)
-                console.log('payment-saved', res.data)
+                // console.log('payment-saved', res.data)
                 if (res.data?.paymentResult?.insertedId) {
                     Swal({
                         position: "top-end",
@@ -119,16 +115,14 @@ const CheckoutForm = ({ id }) => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                   
+                    setLoading(false)
 
-                     navigate('/dashboard/myEnrolledClass')
+                    navigate('/dashboard/myEnrolledClass')
                 }
-
-
             }
         }
-
     }
+
     return (
         <div className="flex items-center justify-center md:py-24">
             <form className="min-w-[400px] space-y-6 m-10 bg-gray-100 p-6 border border-cyan-300 rounded-lg" onSubmit={handleSubmit}>
@@ -148,19 +142,13 @@ const CheckoutForm = ({ id }) => {
                         },
                     }}
                 />
-                <button
-                    className="btn btn-sm bg-green-600 hover:bg-green-700 text-white my-4"
-                    type="submit"
-                    disabled={!stripe || !clientSecret}
-                >
-                    Pay
+                <button className="btn btn-sm bg-green-600 hover:bg-green-700 text-white my-4" type="submit" disabled={!stripe || !clientSecret}>
+                    {loading ? <span className="loading loading-spinner loading-sm p-0 m-0 text-white "></span> : 'PAY'}
                 </button>
-
                 <p className="text-red-400">{error}</p>
                 {
                     transactionId && <p className="text-green-400">Transaction ID : {transactionId}</p>
                 }
-
             </form>
         </div>
     );

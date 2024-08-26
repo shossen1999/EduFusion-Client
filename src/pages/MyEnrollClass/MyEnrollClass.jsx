@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Btn from "../../Components/Btn";
+import { Helmet } from "react-helmet";
 
 const MyEnrollClass = () => {
     const { user } = useContext(AuthContext)
@@ -66,6 +67,9 @@ const MyEnrollClass = () => {
     }
     return (
         <div className="container mx-auto px-4 lg:p-14">
+             <Helmet>
+                <title>Student | My Enroll Class</title>
+            </Helmet>
             <div className="flex my-4 items-center justify-between">
                 <h1 className="text-3xl font-bold mb-8">Enrolled Classes</h1>
                

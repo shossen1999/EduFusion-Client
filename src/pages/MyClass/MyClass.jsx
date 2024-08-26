@@ -4,6 +4,7 @@ import swal from "sweetalert";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider.jsx";
 import useAxiosSecure from "../../Hooks/useAxiosSecure.jsx";
+import { Helmet } from "react-helmet";
 
 const MyClass = () => {
     const { user } = useContext(AuthContext);
@@ -18,7 +19,7 @@ const MyClass = () => {
     });
 
     if (isPending) {
-        return <div className="text-center">Loading...</div>;
+        return <span className="loading loading-spinner loading-lg"></span>;
     }
 
     const handleDelete = (id) => {
@@ -51,6 +52,9 @@ const MyClass = () => {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 p-6">
+             <Helmet>
+                <title>Teacher | My Class</title>
+            </Helmet>
             {classes.map((aClass, idx) => (
                 <div key={idx} className="card bg-base-100 shadow-xl border border-gray-200 overflow-hidden max-w-[380px] mx-auto">
                    

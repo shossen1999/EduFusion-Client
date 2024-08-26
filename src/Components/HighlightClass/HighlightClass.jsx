@@ -36,30 +36,31 @@ const HighlightClass = () => {
             >
                 {popularClasses.slice(0, 6).map((singleClass, idx) => (
                     <SwiperSlide key={idx}>
-                        <div className='border border-grey mb-12'> 
-                        <div >
-                            <img src={singleClass.image} alt={singleClass.title} className="relative h-[290px] w-full bg-no-repeat " />
-                          
-                        </div>
-                        <div className='p-4'>
-                        <h1 className="text-xl font-bold text-white underline underline-offset-8">{singleClass.title}</h1>
-                            <div className='flex flex-col '>
-                            <p className="text-white">Enrolled: {singleClass.total_enrollment}</p>
-                            <p className="text-white">Instructor: {singleClass.name}</p>
-                            <p className="text-white">Price: ${singleClass.price}</p>
-                            <div className="flex-1 h-full flex items-center justify-center">
-                                    <Link className="w-full" to={`/classDetails/${singleClass._id}`}>
-                                        <button className="px-4 py-2 rounded-full bg-[#7b7b7b] btn-block text-white font-bold hover:bg-cyan-700">
-                                            Enroll
-                                        </button>
-                                    </Link>
-                                </div>
-                         
+                        <div className='border border-grey mb-12'>
+                            <div >
+                                <img src={singleClass.image} alt={singleClass.title} className="relative h-[290px] w-full bg-no-repeat " />
+
                             </div>
-                          
+                            <div className='p-4'>
+                                <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200 underline underline-offset-8">{singleClass.title}</h1>
+                                <div className='flex flex-col '>
+                                    <p className="text-gray-800 dark:text-gray-200">Enrolled: {singleClass.total_enrollment}</p>
+                                    <p className="text-gray-800 dark:text-gray-200">Instructor: {singleClass.name}</p>
+                                    <p className="text-gray-800 dark:text-gray-200">Price: ${singleClass.price}</p>
+
+                                    <div className="flex-1 h-full flex items-center justify-center">
+                                        <Link className="w-full" to={`/classDetails/${singleClass._id}`}>
+                                            <button className="px-4 py-2 rounded-full bg-[#7b7b7b] btn-block text-white font-bold hover:bg-cyan-700">
+                                                Enroll
+                                            </button>
+                                        </Link>
+                                    </div>
+
+                                </div>
+
+                            </div>
                         </div>
-                        </div>
-                      
+
                     </SwiperSlide>
                 ))}
             </Swiper>

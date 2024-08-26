@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { Helmet } from "react-helmet";
 
 const ClassDetails = () => {
   const { id } = useParams();
@@ -21,6 +22,9 @@ const ClassDetails = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-lg">
+       <Helmet>
+                <title>Home | Class Details</title>
+            </Helmet>
       <div className="md:flex md:space-x-6">
         {/* Left Column - Image */}
         <div className="md:w-1/2">

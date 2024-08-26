@@ -3,6 +3,7 @@ import { FaStar } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { Rating } from '@material-tailwind/react';
+import { Helmet } from "react-helmet";
 
 const AdminSeeProgress = () => {
     const { id } = useParams();
@@ -31,6 +32,9 @@ const AdminSeeProgress = () => {
 
     return (
         <div className="container mx-auto my-10">
+            <Helmet>
+                <title>Admin | Admin See Progress</title>
+            </Helmet>
             <h2 className="text-3xl font-bold mb-6 text-center">Feedback on {feedback[0]?.title}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {feedback.map((item) => (

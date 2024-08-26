@@ -6,6 +6,7 @@ import useClasses from "../../Hooks/useClasses";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useWebDetail from "../../Hooks/useWebDetail";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
+import { Helmet } from "react-helmet";
 
 const DashboardAllClasses = () => {
     const axiosSecure = useAxiosSecure();
@@ -63,6 +64,9 @@ const DashboardAllClasses = () => {
 
     return (
         <div className="overflow-x-auto p-4 md:p-10">
+             <Helmet>
+                <title>Admin | All Classes</title>
+            </Helmet>
             <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
                 <thead>
                     <tr className="bg-gradient-to-r from-blue-500 to-blue-700 text-white text-xs md:text-sm">

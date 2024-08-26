@@ -10,7 +10,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { EffectFade } from 'swiper/modules';
-import { Helmet } from 'react-helmet';
+// import { Helmet } from 'react-helmet';
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { Link, NavLink } from 'react-router-dom';
@@ -22,10 +22,7 @@ const SwipperSlider = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Home | Swipper Slider</title>
-      </Helmet>
-
+     
       <style>
         {`
           .swiper-button-prev,

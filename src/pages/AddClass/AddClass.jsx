@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../providers/AuthProvider";
+import { Helmet } from "react-helmet";
 
 const AddClass = () => {
     const { user } = useContext(AuthContext);
@@ -45,6 +46,10 @@ const AddClass = () => {
     };
 
     return (
+        <>
+        <Helmet>
+            <title>Teacher | Add Class</title>
+        </Helmet>
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
             <div className="bg-gradient-to-r from-blue-600 to-indigo-500 h-32 flex items-center justify-center">
                 <h3 className="text-3xl text-white">Add Class</h3>
@@ -118,6 +123,9 @@ const AddClass = () => {
                 </button>
             </div>
         </form>
+        
+        </>
+        
     );
 };
 

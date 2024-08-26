@@ -6,6 +6,7 @@ import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useUsers from "../../Hooks/useUsers";
+import { Helmet } from "react-helmet";
 
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -121,6 +122,9 @@ const AllUsers = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 md:px-0">
+       <Helmet>
+                <title>Admin | All Users</title>
+            </Helmet>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead className="bg-gradient-to-r from-blue-500 to-blue-700 text-white">
