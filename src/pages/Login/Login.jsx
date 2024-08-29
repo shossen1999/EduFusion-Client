@@ -31,7 +31,6 @@ const Login = () => {
         setLoading(true);
         logIn(data.email, data.password)
             .then(result => {
-                console.log(result);
                 toast.success('Login successfully!');
                 navigate(location?.state ? location.state : '/');
                 setLoading(false);
@@ -56,10 +55,9 @@ const Login = () => {
 
                 axiosPublic.post('/users', newUser)
                     .then(res => {
-                        // if (res.data.inserterId) {
-                           
-                        // }
-                        toast.success('Login successfully!');
+                        if (res.data.inserterId) {
+                            toast.success('Login successfully!');
+                        }
                         navigate(location?.state ? location.state : '/');
                     });
             })
