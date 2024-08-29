@@ -46,7 +46,7 @@ const Register = () => {
                             .catch();
                         
                         setLoading(false);
-                        toast.success('Account created successfully!');
+                        toast.success('User created successfully!');
                         navigate('/login');
                     });
             })
@@ -60,7 +60,7 @@ const Register = () => {
     return (
         <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-gray-800 via-gray-900 to-black">
              <Helmet>
-                    <title>Home | Register</title>
+                    <title>Register</title>
                 </Helmet>
             <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 my-4">
                 <h1 className="text-3xl font-bold text-center mb-6">Sign Up</h1>

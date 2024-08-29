@@ -31,6 +31,7 @@ const Login = () => {
         setLoading(true);
         logIn(data.email, data.password)
             .then(result => {
+                console.log(result);
                 toast.success('Login successfully!');
                 navigate(location?.state ? location.state : '/');
                 setLoading(false);
@@ -55,9 +56,10 @@ const Login = () => {
 
                 axiosPublic.post('/users', newUser)
                     .then(res => {
-                        if (res.data.inserterId) {
-                            toast.success('Login successfully!');
-                        }
+                        // if (res.data.inserterId) {
+                           
+                        // }
+                        toast.success('Login successfully!');
                         navigate(location?.state ? location.state : '/');
                     });
             })
@@ -72,7 +74,7 @@ const Login = () => {
             className="flex min-h-screen items-center justify-center bg-gradient-to-r from-gray-800 via-gray-900 to-black"
         >
             <Helmet>
-                <title>Home |Login</title>
+                <title>Login</title>
             </Helmet>
             <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
                 <h1 className="text-3xl font-bold text-center mb-6">Sign In</h1>
